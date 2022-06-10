@@ -28,7 +28,7 @@ export class TaskService {
   }
 
   async delete(id: string) {
-    return await this.taskModel.deleteOne({_id: id }).exec();
+    return await this.taskModel.deleteOne({ _id: id }).exec();
 
   }
 }
