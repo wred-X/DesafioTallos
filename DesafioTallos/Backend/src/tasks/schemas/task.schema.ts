@@ -1,6 +1,11 @@
-import * as mongoose from 'mongoose'
+import * as mongoose from 'mongoose';
 
 export const TaskSchema = new mongoose.Schema({
+  email: String,
+  name: String,
+  age: Number,
   description: String,
-  completed: Boolean,
-})
+  owner: Boolean,
+});
+
+//Definição de schema
