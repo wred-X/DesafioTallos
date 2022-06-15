@@ -1,24 +1,50 @@
 import { Document } from 'mongoose';
-import { IsNotEmpty } from 'class-validator';
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsInt, IsNotEmpty } from 'class-validator';
+import { IsSameEmail } from './validator.decorator';
+import { Expose } from 'class-transformer';
 
 //parametros do user
 export class Task {
+  @Expose({ name: 'ID' })
   _id: string;
-  @IsEmail({ message: 'email precisa ser um endereço de email válido.' })
-  email: string;
-  // @IsNotEmpty({
-  //   message: 'senha é obrigatório.',
-  // })
-  // senha: string;
-  age: number;
+
+  @IsSameEmail({ message: 'Esse email já foi cadastrado' })
+  @Expose({ name: 'email' })
+  @IsEmail({ message: 'Email precisa ser um endereço de email válido.' })
   @IsNotEmpty({
-    message: 'nomeCompleto é obrigatório.',
+    message: 'Email é obrigatório.',
+  })
+  email: string;
+
+  @Expose({
+    name: 'password',
+  })
+  @IsNotEmpty({
+    message: 'senha é obrigatório.',
+  })
+  password: string;
+
+  @Expose({ name: 'age' })
+  @IsInt({
+    message: 'Por favor, apenas inserir apenas números',
+  })
+  @IsNotEmpty({
+    message: 'Inserir idade é obrigatório.',
+  })
+  age: number;
+
+  @Expose({ name: 'name' })
+  @IsNotEmpty({
+    message: 'Nome Completo é obrigatório.',
   })
   name: string;
+
+  @Expose({ name: 'work' })
   @IsNotEmpty({
-    message: 'função do empregado é obrigatório.',
+    message: 'Função do empregado é obrigatório.',
   })
   description: string;
+
+  @Expose({ name: 'permission' })
   owner: boolean;
 }
