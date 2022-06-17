@@ -17,6 +17,8 @@ import { Task } from './shared/task';
 import { InterceptorForClassSerializer } from './shared/interceptor';
 import { NestResponseBuilder } from 'src/core/http/nest-response-builder';
 import { NestResponse } from 'src/core/http/nest-response';
+import { IsPublic } from 'src/auth/decorators/is-public-decorator';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 @Controller('tasks')
 @SerializeOptions({
   excludePrefixes: ['password'],
@@ -29,52 +31,64 @@ export class TasksController {
   //async para utilização dos Promise's
 
   //rota get, retornando todos os users
+  @IsPublic()
   @Get()
   async getAll(): Promise<Task[]> {
     return this.taskService.getAll();
   }
 
+  //teste current user
+  @Get('me')
+  getMe(@CurrentUser() task: Task) {
+    return task;
+  }
+
   //rota get, retornando user por id
   //to do: retorna validação de login de user por email e senha
+  @IsPublic()
   @Get(':id')
   async getById(@Param('id') id: string): Promise<Task> {
     return this.taskService.getById(id);
   }
 
   //to do: retorna validação de login de user por email e senha
-  @Get(':email')
-  public login(@Param('email') email: string): Promise<Task> {
-    const usuarioEncontrado = this.taskService.login(email);
+  // @IsPublic()
+  // @Post()
+  // public findByEmail(@Body() task: Task): Promise<Task> {
+  //   const usuarioEncontrado = this.taskService.findByEmail(task.email);
 
-    if (!usuarioEncontrado) {
-      throw new NotFoundException({
-        statusCode: HttpStatus.NOT_FOUND,
-        message: 'Usuário não encontrado.',
-      });
-    }
-    return usuarioEncontrado;
-  }
+  //   if (!usuarioEncontrado) {
+  //     throw new NotFoundException({
+  //       statusCode: HttpStatus.NOT_FOUND,
+  //       message: 'Usuário não encontrado.',
+  //     });
+  //   }
+  //   return usuarioEncontrado;
+  // }
 
   //rota post, criar user
+  @IsPublic()
   @Post()
   async create(@Body() task: Task): Promise<NestResponse> {
     const usuarioCriado = await this.taskService.create(task);
     return new NestResponseBuilder()
       .comStatus(HttpStatus.CREATED)
       .comHeaders({
-        Location: `/tasks/${usuarioCriado.email}`,
+        Location: `/tasks/${usuarioCriado._id}`,
       })
       .comBody(usuarioCriado)
       .build();
   }
 
   //rota put, alterar user, incluindo permições
+  @IsPublic()
   @Put(':id')
   async update(@Param('id') id: string, @Body() task: Task): Promise<Task> {
     return this.taskService.update(id, task);
   }
 
   //deletar user
+  @IsPublic()
   @Delete(':id')
   async delete(@Param('id') id: string) {
     this.taskService.delete(id);

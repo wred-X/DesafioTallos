@@ -17,7 +17,7 @@ export class IsSameEmailConstraint implements ValidatorConstraintInterface {
     email: string,
     validationArguments?: ValidationArguments
   ): boolean | Promise<boolean> {
-    return !!!this.taskService.login(email);
+    return !!!this.taskService.getById(email);
   }
 }
 

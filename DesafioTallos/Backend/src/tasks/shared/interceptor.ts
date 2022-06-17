@@ -13,8 +13,3 @@ export class InterceptorForClassSerializer extends ClassSerializerInterceptor {
     return super.serialize(JSON.parse(rawDataJSON), options);
   }
 }
-
-//  @SerializeOptions({
-//    excludePrefixes: ['password']
-//  })
-// @UseInterceptors(InterceptorForClassSerializer)

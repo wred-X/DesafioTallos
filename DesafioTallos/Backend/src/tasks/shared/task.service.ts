@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { Task } from './task';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt';
 import { Strategy } from 'passport-local';
-//import { PassportStrategy } from '@nestjs/passport';
-//import { AuthService } from 'src/auth/shared/auth.service';
+import { PassportStrategy } from '@nestjs/passport';
+import { AuthService } from 'src/auth/shared/auth.service';
 
 //injeção das tarefas de Service
 @Injectable()
@@ -22,17 +23,24 @@ export class TaskService {
   }
 
   //to do: login por email e senha
-  async login(email: string): Promise<Task> {
-    const usuarioEncontrado = this.taskModel.findOne(
-      (Task) => Task.email == email
-    );
+  // findByEmail(email: string) {
+  //   return this.taskModel.findOne({
+  //     where: { email },
+  //   });
+  // }
+  async findByEmail(email: string): Promise<Task> {
+    const usuarioEncontrado = this.taskModel.findOne({ email });
 
     return usuarioEncontrado;
   }
 
   //criar user / singUp
   async create(task: Task) {
-    const createdTask = new this.taskModel(task);
+    const data = {
+      ...task,
+      password: await bcrypt.hash(task.password, 10),
+    };
+    const createdTask = new this.taskModel(data);
     return await createdTask.save();
   }
 

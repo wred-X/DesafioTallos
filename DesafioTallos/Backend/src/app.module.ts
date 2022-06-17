@@ -1,20 +1,20 @@
-import { UsersModule } from './users/users.module';
-//import { AuthModule } from './auth/auth.module';
-import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TasksModule } from './tasks/tasks.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { FitroDeExcecaoHttp } from './common/filter/filtro-de-excecao-http.filter';
 import { InterceptorForClassSerializer } from './tasks/shared/interceptor';
 import { TransformInterceptor } from './core/http/transform.interceptor';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { AuthModule } from './auth/auth.module';
 
 //Definir importação (services no controller ou a partir de ExemploModule dentro de imports)
 @Module({
   imports: [
     ConfigModule.forRoot(),
     //UsersModule,
-    //AuthModule,
+    AuthModule,
     MongooseModule.forRoot(process.env.USER_BD),
     TasksModule,
   ],
@@ -31,6 +31,10 @@ import { TransformInterceptor } from './core/http/transform.interceptor';
     {
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
   ],
 })
