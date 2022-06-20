@@ -1,17 +1,9 @@
 <template>
-  <!-- <div v-if="owner">
-    <Header /> 
-    <Teste />
-    <UserInfo />
-    <Dono/>
-  </div>
-  <div v-else>
-    <Teste />
-    <UserInfo />
-    <Home/>
-  </div> -->
-  <div v-if="Login">
-    <Login />
+  <div>
+    <Nav/>
+    <main class="form-login">
+      <router-view/>
+    </main>
   </div>
 </template>
 
@@ -22,6 +14,7 @@ import Dono from './components/form/HomeOwner.vue'
 import Home from './components/form/Home.vue'
 import Header from './components/form/Header.vue'
 import Login from './components/form/Form.vue'
+import NavVue from './components/Nav.vue'
 export default {
   name: 'App',
   components: {
@@ -30,7 +23,8 @@ export default {
     Dono,
     Home,
     Header,
-    Login
+    Login,
+    NavVue
 },
   data() {
     return { 

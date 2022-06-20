@@ -1,41 +1,13 @@
 <template>
-    <div>
-        <h2>Login</h2>
-        <form id="login-form" method="POST" @submit="login">
-        <div class="input-container">
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" v-model="email" placeholder="Digite o seu email">
-        </div>
-        <div class="input-container">
-            <label for="password">Senha:</label>
-            <input type="text" id="password" name="password" v-model="password" placeholder="Digite sua senha">
-        </div>
-      <!-- <div class="input-container">
-        <label for="pao">Escolha o pão:</label>
-        <select name="pao" id="pao" v-model="pao">
-          <option value="">Selecione o seu pão</option>
-          <option v-for="pao in paes" :key="pao.id" :value="pao.tipo">{{ pao.tipo }}</option>
-        </select>
-      </div> -->
-      <!-- <div class="input-container">
-        <label for="carne">Escolha a carne do seu Burger:</label>
-        <select name="carne" id="carne" v-model="carne">
-          <option value="">Selecione o tipo de carne</option>
-          <option v-for="carne in carnes" :key="carne.id" :value="carne.tipo">{{ carne.tipo }}</option>
-        </select>
-      </div> -->
-      <!-- <div id="opcionais-container" class="input-container">
-        <label id="opcionais-title" for="opcionais">Selecione os opcionais:</label>
-        <div class="checkbox-container" v-for="opcional in opcionaisdata" :key="opcional.id">
-          <input type="checkbox" name="opcionais" v-model="opcionais" :value="opcional.tipo">
-          <span>{{ opcional.tipo }}</span>
-        </div>
-      </div> -->
-      <div class="input-container">
-        <input class="submit-btn" type="submit" value="entrar">
-      </div>
-    </form>
-    </div>
+  <form @submit.prevent="submit">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <input v-model="data.email" type="email" class="form-control" placeholder="Email" required>
+
+    <input v-model="data.password" type="password" class="form-control" placeholder="Password" required>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+  </form>
 </template>
 
 <script>
