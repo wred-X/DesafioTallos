@@ -7,7 +7,7 @@ export default {
   name: 'Picture',
   data() {
     return { 
-      avatar: "../img/avatar.png",
+      avatar: "../../../public/img/avatar.png",
       username: "Wesley Romão"
     }
   }

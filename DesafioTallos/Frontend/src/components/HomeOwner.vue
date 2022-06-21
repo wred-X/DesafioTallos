@@ -22,3 +22,11 @@ export default {
   }
 }
 </script>
+
+<style>
+#app {
+    display: grid;
+    padding: 0 2rem;
+  }
+
+  </style>

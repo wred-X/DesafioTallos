@@ -1,12 +1,16 @@
 <template>
-  <form @submit.prevent="submit">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
-    <input v-model="data.email" type="email" class="form-control" placeholder="Email" required>
-
-    <input v-model="data.password" type="password" class="form-control" placeholder="Password" required>
-
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+  <form id="login-form" @submit="submit">
+    <div class="input-container">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" v-model="email" placeholder="Digite o seu email">
+      </div>
+      <div class="input-container">
+        <label for="password">Senha:</label>
+        <input type="text" id="password" name="password" v-model="password" placeholder="Digite sua senha">
+      </div>
+    <div class="input-container">
+        <input class="submit-btn" type="submit" value="Entrar!">
+      </div>
   </form>
 </template>
 
@@ -20,51 +24,14 @@ export default {
         }
     },
     methods: {
-        // async login() {
-        // const req = await fetch('http://localhost:3000/login')
-        // const data = await req.json()
-
-        // this.email = data.email
-        // this.password = data.password
-        // },
-        // async entrar(e) {
         entrar(e) {
-
 
         e.preventDefault();
 
-        //const data = {
         const email= this.email;
         const password= this.password;
         console.log("o email é:" + this.email);
         console.log("a senha é:" + this.password);
-            //opcionais: Array.from(this.opcionais),
-        //}
-
-        // const dataJson = JSON.stringify(data)    
-
-        // const req = await fetch("http://localhost:3000/burgers", {
-        //     method: "POST",
-        //     headers: { "Content-Type" : "application/json" },
-        //     body: dataJson
-        // });
-
-        // const res = await req.json()
-
-        // console.log(res)
-
-        // this.msg = "Pedido realizado com sucesso!"
-
-        // // clear message
-        // setTimeout(() => this.msg = "", 3000)
-
-        // // limpar campos
-        // this.nome = ""
-        // this.carne = ""
-        // this.pao = ""
-        // this.opcionais = []
-            
-        // }
     }
     }
 }
@@ -87,7 +54,6 @@ export default {
     margin-bottom: 15px;
     color: #222;;
     padding: 5px 10px;
-    margin-left: 40px ;
     border-left: 5px solid #fcba03;
   }
 

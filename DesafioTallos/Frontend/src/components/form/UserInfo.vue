@@ -12,8 +12,8 @@
 
 <script>
 import Picture from './Picture.vue';
-undefined
-
+import {onMounted, ref} from 'vue';
+import {useStore} from "vuex";
 export default {
   name: 'UserInfo',
   components: {
@@ -47,9 +47,9 @@ export default {
 }
 </script>
 
-<style>
+<!-- <style>
   body {
-    background-color: #008000;
+    background-color: #008000; 
     color: #FFF;
   }
-</style>
+</style> -->
