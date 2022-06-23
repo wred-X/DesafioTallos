@@ -22,12 +22,6 @@ export class TaskService {
     return await this.taskModel.findById(id).exec();
   }
 
-  //to do: login por email e senha
-  // findByEmail(email: string) {
-  //   return this.taskModel.findOne({
-  //     where: { email },
-  //   });
-  // }
   async findByEmail(email: string): Promise<Task> {
     const usuarioEncontrado = this.taskModel.findOne({ email });
 
