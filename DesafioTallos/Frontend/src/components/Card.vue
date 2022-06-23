@@ -1,20 +1,20 @@
 <template>
-    <div class="card">
-    <img src="https://lh3.googleusercontent.com/oUUiPB9sq3ACq4bUaRmo8pgvC4FUpRRrQKcGIBSOsafawZfRpF1vruFeYt6uCfL6wGDQyvOi6Ez9Bpf1Fb7APKjIyVsft7FLGR6QqdRFTiceNQBm1In9aZyrXp33cZi9pUNqjHASdA=s170-no" alt="Person" class="card__image">
-    <p class="card__name">Wesley Romão</p>
+    <div v-for="funcionario in get_all" :key="funcionario._id" class="card">
+    <img src="/img/avatar.png" alt="Person" class="card__image">
+    <p class="card__name">{{funcionario.usuario}}</p>
     <div class="grid-container">
 
       <div class="grid-child-posts">
-        30 anos
+        Idade: {{funcionario.age}}
       </div>
 
       <div class="grid-child-followers">
-        8h/dia
+        Carga: 8h/dia
       </div>
 
     </div>
     <button class="btn draw-border">Informações</button>
-    <button class="btn draw-border">Alterações</button>
+    <button v-show="owner" class="btn draw-border">Alterações</button>
   </div>
 
 </template>
@@ -23,8 +23,14 @@ export default {
   name: 'Card',
   data() {
     return { 
+      get_all:[
+        {_id: 1, usuario: 'Neymar Jr.', age: 20},
+        {_id: 2, usuario: 'Lebron James', age: 22},
+        {_id: 3, usuario: 'Ronaldo Nazario', age: 26},
+      ],
+      owner: true,
     }
-  }
+  },
 }
 </script>
 
@@ -51,13 +57,13 @@ export default {
   border-radius: 50%;
   border: 5px solid #272133;
   margin-top: 20px;
-  box-shadow: 0 10px 50px rgba(235, 25, 110, 1);
+  box-shadow: 0 10px 50px #fc03b1;
 }
 
 
 .draw-border {
-  box-shadow: inset 0 0 0 4px #58cdd1;
-  color: #58afd1;
+  box-shadow: inset 0 0 0 4px #a134f6;
+  color: #a134f6;
   -webkit-transition: color 0.25s 0.0833333333s;
   transition: color 0.25s 0.0833333333s;
   position: relative;
@@ -87,7 +93,7 @@ export default {
 }
 
 .draw-border:hover {
-  color: #ffe593;
+  color: #eb196e;
 }
 
 .draw-border:hover::before,

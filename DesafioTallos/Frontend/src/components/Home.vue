@@ -1,11 +1,9 @@
 <template>
 <UserInfo/>
   <div class="Home">
-    <label class="Title">Home de Funcionario</label>
-    <label class="work">Funcionarios disponiveis:</label>
+    <!-- <label class="Title">Home de Funcionario</label> -->
+    <label class="work">Esses são seus colegas de trabalho:</label>
     <div class="workers">
-       <Card/>
-       <Card/>
        <Card/>
     </div>
   </div>
@@ -33,12 +31,14 @@ export default {
 .Home {
     display: grid;
     padding: 0 2rem;
+    background-color: #f5f5f5;
   }
 .Title {
   font-size: 40px;
   text-align: start;
 }
 .work {
+  font-family: 'Baloo Paaji 2', cursive;
   margin-top: 40px;
   font-size: 30px;
   text-align: center;
@@ -49,7 +49,7 @@ export default {
   grid-gap: 50px;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 440px;
   background-color: #f5f5f5;
   font-family: 'Baloo Paaji 2', cursive;
 }

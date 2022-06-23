@@ -1,9 +1,10 @@
 <script setup>
-import Home from '@/components/Home.vue'
+import Home from '@/components/Home.vue';
+import HomeOwner from '../components/HomeOwner.vue';
 </script>
 
 <template>
   <main>
-    <Home />
+    <HomeOwner />
   </main>
 </template>

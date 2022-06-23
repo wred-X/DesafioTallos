@@ -1,32 +1,59 @@
 <template>
-  <div>
-    <h1>Home de Dono.</h1>
-    <p>Empregados:</p>
-    <ul>
-      <li v-for="funcionario in get_all" :key="funcionario._id">{{funcionario.usuario}}, {{funcionario.age}}</li>
-    </ul>
+<UserInfo/>
+  <div class="Home">
+    <!-- <label class="Title">Admin</label> -->
+    <label class="work">Esses são os seus Funcionarios:</label>
+    <div class="workers">
+       <Card/>
+    </div>
   </div>
+
+ 
 </template>
 <script>
+import UserInfo from './form/UserInfo.vue'
+import Card from './Card.vue'
+
 export default {
-  name: 'Dono',
+  name: 'HomeOwner',
+  components:{
+    Card,
+    UserInfo,
+},
   data() {
     return { 
-      // get_all:["Eu","eu mesmo","eu de novo"]
-      get_all:[
-        {_id: 1, usuario: 'Sandro', age: 20},
-        {_id: 2, usuario: 'Joe', age: 22},
-        {_id: 3, usuario: 'Ronaldo', age: 9},
-      ]
     }
   }
 }
 </script>
 
-<style>
-#app {
+<style scoped>
+.Home {
     display: grid;
     padding: 0 2rem;
+    background-color: #f5f5f5;
   }
+.Title {
+  font-size: 40px;
+  text-align: start;
+  font-family: 'Baloo Paaji 2', cursive;
+}
+.work {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  font-size: 30px;
+  text-align: center;
+  font-family: 'Baloo Paaji 2', cursive;
+}
+.workers {
+  display: grid;
+  grid-template-columns: 300px 300px 300px;
+  grid-gap: 50px;
+  justify-content: center;
+  align-items: center;
+  height: 440px;
+  background-color: #f5f5f5;
+  font-family: 'Baloo Paaji 2', cursive;
+}
 
-  </style>
+</style>
