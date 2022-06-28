@@ -1,73 +1,108 @@
 <template>
-  <form class="container-register" @submit.prevent="submit">
+  <form class="container-register" @submit.prevent="handleSubmitForm()">
     <div class="title-container">
       <h1 class="title">Casdastro de funcionarios!</h1>
     </div>
     <div class="input-container">
       <label for="name">Nome do funcionario:</label>
-      <input v-model="data.name" class="form-control" placeholder="Nome" required>
+      <input 
+        v-model="user.name" 
+        :class="{'is-invalid': isSubmitted && $v.user.name.$error}" 
+        class="form-control" 
+        placeholder="Nome" 
+        required
+      >
+      <div v-if="isSubmitted && $v.user.name.$required" class="invalid-feedback"></div>
     </div>
     <div class="input-container">
       <label for="email">Coloque seu melhor Email:</label>
-      <input v-model="data.email" type="email" class="form-control" placeholder="Email" required>
+      <input v-model="user.email" :class="{'is-invalid': isSubmitted && $v.user.email.$error}" type="email" class="form-control" placeholder="Email" required>
+      <div v-if="isSubmitted && $v.user.email.$required" class="invalid-feedback"></div>
     </div>
     <div class="input-container">
       <label for="password">Senha para acesso:</label>
-      <input v-model="data.password" type="password" class="form-control" placeholder="Senha" required>
+      <input v-model="user.password" :class="{'is-invalid': isSubmitted && $v.user.password.$error}" type="password" class="form-control" placeholder="Senha" required>
+      <div v-if="isSubmitted && $v.user.password.$required" class="invalid-feedback"></div>
     </div>
     <div class="input-container">
-      <label for="work">Em que área ele irá atuar ?</label>
-      <input v-model="data.work" class="form-control" placeholder="Função" required>
+      <label for="description">Em que área ele irá atuar ?</label>
+      <input v-model="user.description" :class="{'is-invalid': isSubmitted && $v.user.description.$error}" class="form-control" placeholder="Função" required>
+      <div v-if="isSubmitted && $v.user.description.$required" class="invalid-feedback"></div>
     </div>
     <div class="select-container">
-      <div class="select">
-        <label for="work" style="padding-left: 2px;">Idade</label>
-        <select name="age" id="age" v-model="age">
-          <option value="">idade</option>
-        </select>
+      <div class="select" style="padding-right: 24px;">
+        <label for="work" style="padding-left: 2px;">Idade:</label>
+        <input v-model="user.age" :class="{'is-invalid': isSubmitted && $v.user.age.$error}" style="width: 40px;" name="age" id="age" required>
       </div>
       <div class="select">
-        <label for="work">Permissão</label>
-        <select name="carne" id="carne" v-model="carne">
-          <option value="">admin</option>
+        <label for="owner">Permissão</label>
+        <select name="owner" id="owner" v-model="user.owner" :class="{'is-invalid': isSubmitted && $v.user.owner.$error}">
+          <option value=false>Comum</option>
+          <option value=true>Admin</option>
           <!-- <option v-for="carne in carnes" :key="carne.id" :value="carne.tipo">{{ carne.tipo }}</option>       -->
         </select>
       </div>
+      <!-- <div v-if="isSubmitted && $v.user.owner.$required" class="invalid-feedback"></div>       -->
     </div>
     <div class="input-container">
-          <input class="submit-btn" type="submit" value="Cadastrar!">
-    </div>
+          <input @click="submitNewUser" class="submit-btn" type="submit" value="Cadastrar!">
+              <!-- <font-awesome-icon :icon="['fas', 'user-plus']" /> -->
+    </div> 
   </form>
 </template>
 
 <script>
-import {reactive} from 'vue';
-import {useRouter} from "vue-router";
+import { required } from '@vuelidate/validators'
+import TaskService from '../../services/TaskService';
+import axios from "axios";
+import Api from '../../services/Api';
 
 export default {
   name: "Register",
-  setup() {
-    const data = reactive({
-      name: '',
-      email: '',
-      password: ''
-    });
-    const router = useRouter();
-
-    const submit = async () => {
-      await fetch('http://localhost:3000/tasks', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-      });
-
-      await router.push('/home');
-    }
-
+  data(){
     return {
-      data,
-      submit
+      user: {
+       email: null,
+       password: null,
+       name: null,
+       age: Number(null),
+       description: null,
+       owner: Boolean(null),
+    },
+    isSubmitted: false,
+  }
+  },
+  validations:{
+    user: {
+      email: {required},
+       password: {required},
+       name: {required},
+       age: {required},
+       description: {required},
+       owner: {required},
     }
+  },
+  methods: {
+    handleSubmitForm() {
+       this.isSubmitted = true;
+
+          // this.$v.$touch();
+          // if (this.$v.$invalid) {
+          //   return;
+          // }
+    
+    },
+    async submitNewUser(){
+         try {
+           await TaskService.createNewUser(this.user)
+          //  await axios.post(`http://localhost:3000/task`, (this.user))
+           this.$router.push({
+             name: 'registro',
+           }).catch(() => {});;
+         } catch (error) {
+             return console.log(error, "submit")
+         }
+       }
   }
 }
 </script>
@@ -78,7 +113,7 @@ export default {
   height: 91vh;
 }
 .title-container{
-  padding-top: 1%;
+  padding-top: 3%;
   padding-bottom: 0.8%;
   display:flex;
   align-items: center;
@@ -112,7 +147,7 @@ export default {
   
  select {
     padding: 5px 10px;
-    width: 80px;
+    width: 90px;
     align-self: center;
   }
   .submit-btn {

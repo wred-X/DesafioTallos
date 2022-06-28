@@ -9,16 +9,17 @@
       </div>
 
       <div class="grid-child-followers">
-        Carga: 8h/dia
+        Carga: 8h
       </div>
 
     </div>
-    <button class="btn draw-border">Informações</button>
-    <button v-show="owner" class="btn draw-border">Alterações</button>
+    <button class="btn draw-border" @click="$router.push('perfil')">Informações</button>
+    <button v-show="owner"  @click="$router.push('editor')" class="btn draw-border">Alterações</button>
   </div>
 
 </template>
 <script>
+import { RouterLink } from 'vue-router'
 export default {
   name: 'Card',
   data() {
@@ -134,7 +135,7 @@ export default {
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
+  grid-gap: 30px;
   font-size: 1.2em;
 }
 

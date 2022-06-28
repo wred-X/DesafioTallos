@@ -6,7 +6,7 @@
     </div>
     <div class="info-container">
         <div class="card-info">
-            <h6 class="info">Dados de {{funcionario.usuario}}</h6>
+            <h6 class="info">Seus dados pessoais :</h6>
             <div class="row">
                 <div class="infodiv">
                     <p class="nameinfo">Email :</p>
@@ -18,11 +18,11 @@
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Area de atuação :</p>
-                    <h6 class="text-muted">{{funcionario.work}}</h6>
+                    <h6 class="text-muted" style="text-align: center;">{{funcionario.work}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Telefone :</p>
-                    <h6 class="text-muted">{{funcionario.number}}</h6>
+                    <h6 class="text-muted">85 96038982</h6>
                 </div>
             </div>
         </div>
@@ -31,12 +31,12 @@
 </template>
 <script>
 export default {
-  name: 'Profile',
+  name: 'MyProfile',
   data() {
     return { 
       get_all:[
-        {_id: 1, usuario: 'Neymar Jr.', age: 20,  work: "Maquiador",
-      email: "teste@gmail.com", number: 996038982},
+        {_id: 1, usuario: 'Wesley Romão', age: 20,  work: "Dono",
+      email: "teste@gmail.com"},
       ],
       owner: true,
     }
@@ -187,8 +187,8 @@ h6 {
 .text-muted {
     border: 1px solid #000;
     background-color: #fff;
-    margin-top: 14px;
     text-align: center;
+    margin-top: 14px;
     color: #000 !important;
     font-family: 'Baloo Paaji 2', cursive;
 }

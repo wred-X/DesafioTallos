@@ -17,7 +17,7 @@ import { RouterLink } from 'vue-router'
         <RouterLink style="align-self: center; font-size: 18px; font-weight: bold;" to="/login">Login</RouterLink>
         </ul> -->
         <ul class="perfil">
-        <RouterLink style="align-self: center; font-size: 18px; font-weight: bold;" to="/perfil">Perfil</RouterLink>
+        <RouterLink style="align-self: center; font-size: 18px; font-weight: bold;" to="/meuPerfil">Perfil</RouterLink>
         </ul>
         <ul class="sign">
         <RouterLink style="align-self: center; font-size: 18px; font-weight: bold;" to="/registro">Registro</RouterLink>
