@@ -15,7 +15,7 @@ import { IsPublic } from './decorators/is-public-decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @IsPublic()
+  // @IsPublic()
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @HttpCode(HttpStatus.OK)
