@@ -8,6 +8,7 @@ import { InterceptorForClassSerializer } from './tasks/shared/interceptor';
 import { TransformInterceptor } from './core/http/transform.interceptor';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { AuthModule } from './auth/auth.module';
+import { ChatModule } from './socketChat/chat.module';
 // import { ChatGateway } from './chat.gateway';
 
 //Definir importação (services no controller ou a partir de ExemploModule dentro de imports)
@@ -21,7 +22,7 @@ import { AuthModule } from './auth/auth.module';
   ],
   controllers: [],
   providers: [
-    // ChatGateway,
+    ChatModule,
     {
       provide: APP_FILTER,
       useClass: FitroDeExcecaoHttp,

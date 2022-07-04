@@ -17,4 +17,8 @@ import Header from './components/Header.vue';
 .app {
   font-weight: normal;
 }
+#messages{
+ height:300px;
+ overflow-y: scroll;
+}
 </style>

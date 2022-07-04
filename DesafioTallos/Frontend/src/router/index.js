@@ -5,6 +5,7 @@ import Login from '../components/form/Login.vue';
 import Register from '../components/form/Register.vue';
 import Edit from '../components/form/Edit.vue';
 import MyProfile from '../components/MyProfile.vue';
+import Chat from '../socketChat/Chat.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/perfil',
       name: 'perfil',
       component: () => import('../views/AboutView.vue'),
+    },
+    {
+      path: '/chat',
+      name: 'Chat',
+      component: Chat,
     },
   ],
 });

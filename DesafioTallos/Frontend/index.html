@@ -5,9 +5,40 @@
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
   </head>
+  <!-- BODY ORIGINAL
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
-  </body>
+  </body> -->
+  <body>
+    <div id="app" class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 col-sm-12">
+                    <h1 class="text-center">{{ title }}</h1>
+                    <br>
+                    <div id="status"></div>
+                    <div id="chat">
+                        <input type="text" v-model="name" id="username" class="form-control" placeholder="Enter name...">
+                        <br>
+                        <div class="card">
+                            <div id="messages" class="card-block">
+                                <ul>
+                                    <li v-for="message of messages">{{ message.name }}: {{ message.text }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <br>
+                        <textarea id="textarea" class="form-control" v-model="text" placeholder="Enter message..."></textarea>
+                        <br>
+                        <button id="send" class="btn" @click.prevent="sendMessage">Send</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+<script src="./src/socketChat/chat-socket.js"></script>
+</body>
 </html>

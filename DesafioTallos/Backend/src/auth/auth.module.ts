@@ -9,6 +9,7 @@ import { PassportModule } from '@nestjs/passport';
 import { TasksModule } from 'src/tasks/tasks.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './shared/auth.service';
+import { ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
@@ -25,7 +26,7 @@ require('dotenv').config();
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, ConfigService],
   exports: [AuthService],
 })
 export class AuthModule implements NestModule {
