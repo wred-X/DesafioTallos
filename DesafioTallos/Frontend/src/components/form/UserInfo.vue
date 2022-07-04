@@ -2,7 +2,7 @@
     <div class="container">
       <div class="profile">
       <Picture />
-      <h1 class="myName">{{ nome }}, {{age}} anos</h1>
+      <h1 class="myName">{{$store.state.user.name}}, {{$store.state.user.age}} anos</h1>
       </div>
       <div style="align-self:center;">
         <h1>Bem vindo ao nosso sistema!</h1>
@@ -26,7 +26,7 @@ export default {
   data() {
     return { 
       image: "/Frontend/../img/login.png",
-      nome: "Ainda não sei",
+      name: null,
       age: 20,
       work: "Dono",
       email: "teste@gmail.com",
@@ -34,6 +34,9 @@ export default {
       editor: false,
       textEdit: "Abrir editor",
     }
+  },
+  setup () {
+    const store = useStore()
   },
   created() {
     this.nome = "Wesley Romão"

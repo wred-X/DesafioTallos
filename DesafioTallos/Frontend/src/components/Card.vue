@@ -1,7 +1,7 @@
 <template>
-    <div v-for="funcionario in get_all" :key="funcionario._id" class="card">
+    <div v-for="funcionario in users" :key="funcionario._id" class="card">
     <img src="/img/avatar.png" alt="Person" class="card__image">
-    <p class="card__name">{{funcionario.usuario}}</p>
+    <p class="card__name">{{funcionario.name}}</p>
     <div class="grid-container">
 
       <div class="grid-child-posts">
@@ -20,18 +20,38 @@
 </template>
 <script>
 import { RouterLink } from 'vue-router'
+import axios from 'axios';
+
 export default {
   name: 'Card',
   data() {
     return { 
-      get_all:[
-        {_id: 1, usuario: 'Neymar Jr.', age: 20},
-        {_id: 2, usuario: 'Lebron James', age: 22},
-        {_id: 3, usuario: 'Ronaldo Nazario', age: 26},
+      users:[
+        // {
+        //   _id: 2,
+        //   email: "testee@gmail.com",
+        //   name: "Wesleyy",
+        //   age: 25,
+        //   description: "Caixa",
+        //   owner: false,
+        // },
       ],
       owner: true,
     }
   },
+  mounted() {
+    this.getAll();
+  },
+  methods: {
+    async getAll(){
+      const response = await axios.get('http://localhost:3000/tasks')
+      if(response.status == 200){
+        this.users = response.data
+      }else{
+        console.log(error)
+      }
+    }
+  }
 }
 </script>
 

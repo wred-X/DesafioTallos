@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { UnauthorizedError } from '../errors/unauthorized.error';
 import { UserPayload } from '../models/UserPayload';
 import { UserToken } from '../models/UserToken';
+import { TestScheduler } from 'rxjs/testing';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +24,7 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload),
+      user: task,
     };
   }
 

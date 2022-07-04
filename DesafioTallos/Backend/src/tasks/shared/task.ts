@@ -31,15 +31,15 @@ export class Task {
   })
   @MinLength(4)
   @MaxLength(20)
-  // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-  //   message: 'password too weak',
-  // })
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'password too weak',
+  })
   password: string;
 
   @Expose({ name: 'age' })
-  @IsInt({
-    message: 'Por favor, apenas inserir apenas números',
-  })
+  // @IsInt({
+  //   message: 'Por favor, apenas inserir apenas números',
+  // })
   @IsNotEmpty({
     message: 'Inserir idade é obrigatório.',
   })

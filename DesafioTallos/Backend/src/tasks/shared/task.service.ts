@@ -24,7 +24,7 @@ export class TaskService {
 
   async findByEmail(email: string): Promise<Task> {
     const usuarioEncontrado = this.taskModel.findOne({ email });
-    console.log(usuarioEncontrado);
+    //console.log(usuarioEncontrado);
     return usuarioEncontrado;
   }
 

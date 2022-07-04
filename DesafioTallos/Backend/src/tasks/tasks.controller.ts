@@ -51,21 +51,6 @@ export class TasksController {
     return this.taskService.getById(id);
   }
 
-  //to do: retorna validação de login de user por email e senha
-  // @IsPublic()
-  // @Post()
-  // public findByEmail(@Body() task: Task): Promise<Task> {
-  //   const usuarioEncontrado = this.taskService.findByEmail(task.email);
-
-  //   if (!usuarioEncontrado) {
-  //     throw new NotFoundException({
-  //       statusCode: HttpStatus.NOT_FOUND,
-  //       message: 'Usuário não encontrado.',
-  //     });
-  //   }
-  //   return usuarioEncontrado;
-  // }
-
   //rota post, criar user
   @IsPublic()
   @Post()

@@ -1,5 +1,5 @@
 <template>
-  <form class="container-register" @submit.prevent="submit">
+  <form class="container-edit" @submit.prevent="submit">
     <div class="title-container">
       <h1 class="title">Alteração de dados!</h1>
     </div>
@@ -40,39 +40,64 @@
 </template>
 
 <script>
+import { required } from '@vuelidate/validators'
 import {reactive} from 'vue';
 import {useRouter} from "vue-router";
 
 export default {
   name: "Edit",
-  setup() {
-    const data = reactive({
-      name: '',
-      email: '',
-      password: ''
-    });
-    const router = useRouter();
-
-    const submit = async () => {
-      await fetch('http://localhost:3000/tasks', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-      });
-
-      await router.push('/home');
-    }
-
+  data(){
     return {
-      data,
-      submit
+      user: {
+        email: null,
+        password: null,
+        name: null,
+        age: parseInt(null),
+        work: null,
+        permission: null
+    },
+    isSubmitted: false,
+  }
+  },
+  validations:{
+    user: {
+      email: {required},
+       password: {required},
+       name: {required},
+       age: {required},
+       work: {required},
+       permission: {required},
     }
+  },
+  methods: {
+    handleSubmitForm() {
+       this.isSubmitted = true;
+
+          // this.$v.$touch();
+          // if (this.$v.$invalid) {
+          //   return;
+          // }
+    
+    },
+    async submitNewUser(){
+         try {
+          //  await TaskService.createNewUser(this.user)
+          //  await axios.put(`http://localhost:3000/task`, (this.user))
+           const response = await axios.put('http://localhost:3000/tasks/', this.user)
+           return console.log(JSON.stringify(response.data))
+           this.$router.push({
+             name: 'home',
+           }).catch(() => {});;
+         } catch (error) {
+            return console.log(error)
+         }
+       }
   }
 }
 </script>
 
 <style scoped>
-.container-register{
+.container-edit{
   background-color: #f5f5f5;
   height: 91vh;
 }

@@ -2,7 +2,7 @@
 <div v-for="funcionario in get_all" :key="funcionario._id" class="container">
     <div class="card">
         <img src="/img/avatar.png" alt="Person" class="card__image">
-        <p class="card__name" style="font-family: 'Baloo Paaji 2', cursive;">{{funcionario.usuario}}</p>
+        <p class="card__name" style="font-family: 'Baloo Paaji 2', cursive;">{{$store.state.user.name}}</p>
     </div>
     <div class="info-container">
         <div class="card-info">
@@ -10,15 +10,15 @@
             <div class="row">
                 <div class="infodiv">
                     <p class="nameinfo">Email :</p>
-                    <h6 class="text-muted">{{funcionario.email}}</h6>
+                    <h6 class="text-muted">{{$store.state.user.email}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Idade :</p>
-                    <h6 class="text-muted">{{funcionario.age}}</h6>
+                    <h6 class="text-muted">{{$store.state.user.age}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Area de atuação :</p>
-                    <h6 class="text-muted" style="text-align: center;">{{funcionario.work}}</h6>
+                    <h6 class="text-muted" style="text-align: center;">{{$store.state.user.description}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Telefone :</p>

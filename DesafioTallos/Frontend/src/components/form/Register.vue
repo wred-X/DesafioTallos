@@ -25,24 +25,25 @@
       <div v-if="isSubmitted && $v.user.password.$required" class="invalid-feedback"></div>
     </div>
     <div class="input-container">
-      <label for="description">Em que área ele irá atuar ?</label>
-      <input v-model="user.description" :class="{'is-invalid': isSubmitted && $v.user.description.$error}" class="form-control" placeholder="Função" required>
-      <div v-if="isSubmitted && $v.user.description.$required" class="invalid-feedback"></div>
+      <label for="work">Em que área ele irá atuar ?</label>
+      <input v-model="user.work" :class="{'is-invalid': isSubmitted && $v.user.work.$error}" class="form-control" placeholder="Função" required>
+      <div v-if="isSubmitted && $v.user.work.$required" class="invalid-feedback"></div>
     </div>
     <div class="select-container">
       <div class="select" style="padding-right: 24px;">
-        <label for="work" style="padding-left: 2px;">Idade:</label>
-        <input v-model="user.age" :class="{'is-invalid': isSubmitted && $v.user.age.$error}" style="width: 40px;" name="age" id="age" required>
+        <label for="age" style="padding-left: 2px;">Idade:</label>
+        <input placeholder="XX" v-model="user.age" :class="{'is-invalid': isSubmitted && $v.user.age.$error}" style="width: 40px;" name="age" id="age" required>
       </div>
       <div class="select">
-        <label for="owner">Permissão</label>
-        <select name="owner" id="owner" v-model="user.owner" :class="{'is-invalid': isSubmitted && $v.user.owner.$error}">
-          <option value=false>Comum</option>
-          <option value=true>Admin</option>
+        <label for="permission">Permissão</label>
+        <select required name="permission" id="permission" v-model="user.permission" :class="{'is-invalid': isSubmitted && $v.user.permission.$error}">
+          <option :value="null" disabled>Teste</option>
+          <option :value="false">Comum</option>
+          <option :value="true">Admin</option>
           <!-- <option v-for="carne in carnes" :key="carne.id" :value="carne.tipo">{{ carne.tipo }}</option>       -->
         </select>
       </div>
-      <!-- <div v-if="isSubmitted && $v.user.owner.$required" class="invalid-feedback"></div>       -->
+      <!-- <div v-if="isSubmitted && $v.user.permission.$required" class="invalid-feedback"></div>       -->
     </div>
     <div class="input-container">
           <input @click="submitNewUser" class="submit-btn" type="submit" value="Cadastrar!">
@@ -62,12 +63,12 @@ export default {
   data(){
     return {
       user: {
-       email: null,
-       password: null,
-       name: null,
-       age: Number(null),
-       description: null,
-       owner: Boolean(null),
+        email: null,
+        password: null,
+        name: null,
+        age: null,
+        work: null,
+        permission: null
     },
     isSubmitted: false,
   }
@@ -78,29 +79,25 @@ export default {
        password: {required},
        name: {required},
        age: {required},
-       description: {required},
-       owner: {required},
+       work: {required},
+       permission: {required},
     }
   },
   methods: {
     handleSubmitForm() {
        this.isSubmitted = true;
-
-          // this.$v.$touch();
-          // if (this.$v.$invalid) {
-          //   return;
-          // }
-    
     },
     async submitNewUser(){
          try {
-           await TaskService.createNewUser(this.user)
-          //  await axios.post(`http://localhost:3000/task`, (this.user))
+          //  await TaskService.createNewUser(this.user)
+           const response = await axios.post('http://localhost:3000/tasks/', this.user)
+           //return console.log(JSON.stringify(response.data))
+           //this.$store.dispatch('userGet',response.data.body)
            this.$router.push({
-             name: 'registro',
+             name: 'home',
            }).catch(() => {});;
          } catch (error) {
-             return console.log(error, "submit")
+            return console.log(error)
          }
        }
   }
