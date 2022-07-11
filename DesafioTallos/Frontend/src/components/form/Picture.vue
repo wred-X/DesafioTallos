@@ -1,6 +1,6 @@
 <template>
 <!-- colocar ":" antes == v-bind -->
-  <div style="padding-left: 40px;">
+  <div style="padding-left: 20px;">
   <img :src="avatar" :alt="username" class="card__image">
   </div>
 </template>

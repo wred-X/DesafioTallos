@@ -1,5 +1,5 @@
 <template>
-<div v-for="funcionario in get_all" :key="funcionario._id" class="container">
+<div class="container">
     <div class="card">
         <img src="/img/avatar.png" alt="Person" class="card__image">
         <p class="card__name" style="font-family: 'Baloo Paaji 2', cursive;">{{funcionario.usuario}}</p>

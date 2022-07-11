@@ -1,46 +1,77 @@
 <template>
   <div class="login">
      <Logo/>
-    <form id="login-form" @submit="submit">
+    <form id="login-form" @submit.prevent="handleSubmitForm()">
       <div class="input-container">
           <label for="email">Email:</label>
-          <input type="text" id="email" name="email" v-model="email" placeholder="Digite o seu email">
+          <input v-model="user.email" type="email" :class="{'is-invalid': isSubmitted && $v.user.email.$error}" id="email" name="email" placeholder="Digite o seu email" required>
+          <div v-if="isSubmitted && $v.user.email.$required" class="invalid-feedback"></div>
         </div>
         <div class="input-container">
           <label for="password">Senha:</label>
-          <input type="text" id="password" name="password" v-model="password" placeholder="Digite sua senha">
+          <input v-model="user.password" type="password" :class="{'is-invalid': isSubmitted && $v.user.password.$error}" id="password" name="password" placeholder="Digite sua senha" required>
+          <div v-if="isSubmitted && $v.user.password.$required" class="invalid-feedback"></div>
         </div>
         <div class="input-container">
-          <input class="submit-btn" type="submit" value="Entrar!">
+          <input @click="submitLogin" class="submit-btn" type="submit" value="Entrar!">
         </div>
     </form>
   </div>
 </template>
 
 <script>
+import { required } from '@vuelidate/validators'
 import Logo from '../Logo.vue';
+import {useStore} from "vuex";
+import axios from "axios";
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:3000')
+
 export default {
     name: "Login",
     components: {
     Logo,
 },
-    data() {
-        return {
-          email: null,
-          password: null,
-        }
+    data(){
+    return {
+      user: {
+        email: null,
+        password: null,
     },
-    methods: {
-        entrar(e) {
-
-        e.preventDefault();
-
-        const email= this.email;
-        const password= this.password;
-        console.log("o email é:" + this.email);
-        console.log("a senha é:" + this.password);
+    isSubmitted: false,
+  }
+  },
+   setup () {
+    const store = useStore()
+  },
+  validations:{
+    user: {
+      email: {required},
+       password: {required},
     }
-    }
+  },
+  methods: {
+    handleSubmitForm() {
+       this.isSubmitted = true;
+    },
+    async submitLogin(){
+         try {
+          //  await TaskService.createNewUser(this.user)
+           const response = await axios.post('http://localhost:3000/login', this.user)
+           await this.$store.dispatch('authSet',response.data)
+           socket.emit('userLog', {name: response.data.user.name },
+           () => {
+            this.$store.dispatch('joinSet', true)
+           });
+           this.$router.push({
+             name: 'home',
+           }).catch(() => {});;
+         } catch (error) {
+            return console.log(error)
+         }
+       }
+  }
 }
 </script>
 

@@ -4,7 +4,7 @@ export class Users extends Document {
   _id: string;
   email: string;
   name: string;
-  age: number;
+  age: string;
   description: string;
   owner: boolean;
 }

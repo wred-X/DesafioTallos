@@ -1,7 +1,7 @@
 <template>
-    <div v-for="funcionario in get_all" :key="funcionario._id" class="card">
+    <div v-for="funcionario in users" :key="funcionario._id" class="card">
     <img src="/img/avatar.png" alt="Person" class="card__image">
-    <p class="card__name">{{funcionario.usuario}}</p>
+    <p class="card__name">{{funcionario.name}}</p>
     <div class="grid-container">
 
       <div class="grid-child-posts">
@@ -14,24 +14,44 @@
 
     </div>
     <button class="btn draw-border" @click="$router.push('perfil')">Informações</button>
-    <button v-show="owner"  @click="$router.push('editor')" class="btn draw-border">Alterações</button>
+    <button v-if="owner=true"  @click="$router.push('editor')" class="btn draw-border">Alterações</button>
   </div>
 
 </template>
 <script>
 import { RouterLink } from 'vue-router'
+import axios from 'axios';
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:3000')
+
 export default {
   name: 'Card',
   data() {
     return { 
-      get_all:[
-        {_id: 1, usuario: 'Neymar Jr.', age: 20},
-        {_id: 2, usuario: 'Lebron James', age: 22},
-        {_id: 3, usuario: 'Ronaldo Nazario', age: 26},
-      ],
-      owner: true,
+      users:[],
+      owner: this.$store.state.user.name,
     }
   },
+   mounted() {
+     this.getAll();
+     this.newUser();
+   },
+   methods: {
+     async getAll(){
+       const response = await axios.get('http://localhost:3000/tasks')
+       if(response.status == 200){
+         this.users = response.data
+       }else{
+         console.log(error)
+       }
+     },
+     async newUser(){
+        socket.on('task', (response) => {
+          return this.users = response;
+        });
+       },
+   }
 }
 </script>
 
