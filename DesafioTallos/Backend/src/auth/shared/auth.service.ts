@@ -7,10 +7,12 @@ import { UnauthorizedError } from '../errors/unauthorized.error';
 import { UserPayload } from '../models/UserPayload';
 import { UserToken } from '../models/UserToken';
 import { ConfigService } from '@nestjs/config';
+//import { MessagesService } from '../../messages/messages.service';
 
 @Injectable()
 export class AuthService {
   constructor(
+    //private readonly messagesService: MessagesService,
     private readonly jwtService: JwtService,
     private readonly taskService: TaskService, // @Inject(forwardRef(() => TaskService)) // private readonly taskService: TaskService
     private readonly configService: ConfigService

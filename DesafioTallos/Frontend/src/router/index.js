@@ -27,7 +27,7 @@ const router = createRouter({
     },
     {
       path: '/editor',
-      name: 'editor',
+      name: 'edit',
       component: Edit,
     },
     {

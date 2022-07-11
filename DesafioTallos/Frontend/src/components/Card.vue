@@ -14,44 +14,44 @@
 
     </div>
     <button class="btn draw-border" @click="$router.push('perfil')">Informações</button>
-    <button v-show="owner"  @click="$router.push('editor')" class="btn draw-border">Alterações</button>
+    <button v-if="owner=true"  @click="$router.push('editor')" class="btn draw-border">Alterações</button>
   </div>
 
 </template>
 <script>
 import { RouterLink } from 'vue-router'
 import axios from 'axios';
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:3000')
 
 export default {
   name: 'Card',
   data() {
     return { 
-      users:[
-        // {
-        //   _id: 2,
-        //   email: "testee@gmail.com",
-        //   name: "Wesleyy",
-        //   age: 25,
-        //   description: "Caixa",
-        //   owner: false,
-        // },
-      ],
-      owner: true,
+      users:[],
+      owner: this.$store.state.user.name,
     }
   },
-  mounted() {
-    this.getAll();
-  },
-  methods: {
-    async getAll(){
-      const response = await axios.get('http://localhost:3000/tasks')
-      if(response.status == 200){
-        this.users = response.data
-      }else{
-        console.log(error)
-      }
-    }
-  }
+   mounted() {
+     this.getAll();
+     this.newUser();
+   },
+   methods: {
+     async getAll(){
+       const response = await axios.get('http://localhost:3000/tasks')
+       if(response.status == 200){
+         this.users = response.data
+       }else{
+         console.log(error)
+       }
+     },
+     async newUser(){
+        socket.on('task', (response) => {
+          return this.users = response;
+        });
+       },
+   }
 }
 </script>
 

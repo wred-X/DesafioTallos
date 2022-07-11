@@ -6,7 +6,6 @@ import router from './router';
 import '../node_modules/nprogress/nprogress.css';
 import VueSweetalert2 from 'sweetalert2';
 import Vuelidate from 'vuelidate';
-
 // library.add(faUserPlus, faUserEdit, faTrash);
 
 const app = createApp(App);

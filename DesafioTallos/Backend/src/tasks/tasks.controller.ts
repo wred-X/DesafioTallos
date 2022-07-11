@@ -11,14 +11,18 @@ import {
   Res,
   SerializeOptions,
   UseInterceptors,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { TaskService } from './shared/task.service';
+import { TaskGateway } from './shared/task.gateway';
 import { Task } from './shared/task';
 import { InterceptorForClassSerializer } from './shared/interceptor';
 import { NestResponseBuilder } from 'src/core/http/nest-response-builder';
 import { NestResponse } from 'src/core/http/nest-response';
 import { IsPublic } from 'src/auth/decorators/is-public-decorator';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { MessagesGateway } from 'src/messages/messages.gateway';
 @Controller('tasks')
 @SerializeOptions({
   excludePrefixes: ['password'],
@@ -26,7 +30,10 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 @UseInterceptors(InterceptorForClassSerializer)
 export class TasksController {
   //constructor com chamada das Tarefas que estão no service
-  constructor(private taskService: TaskService) {}
+  constructor(
+    private taskService: TaskService,
+    private taskGateway: TaskGateway
+  ) {}
 
   //async para utilização dos Promise's
 

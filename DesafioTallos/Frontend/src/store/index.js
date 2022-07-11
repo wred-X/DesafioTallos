@@ -13,18 +13,36 @@ export const store = createStore({
       owner: null,
     },
     token: '',
+    joined: false,
+    newUser: {},
   },
   mutations: {
     authSet(state, payload) {
       state.token = payload.access_token;
       state.user = payload.user;
-      console.log('Estado global definido');
+    },
+    joinSet(state, payload) {
+      state.joined = payload;
+    },
+    newSet(state, payload) {
+      state.newUser = payload;
     },
   },
   actions: {
     authSet(context, payload) {
       context.commit('authSet', payload);
-      console.log(payload, 'actions');
+      //console.log(payload, 'actions');
+    },
+    joinSet(context, payload) {
+      context.commit('joinSet', payload);
+    },
+    SOCKET_join: (context, payload) => {
+      //state.onLine = data.onLine;
+      context.commit('SOCKET_join', payload);
+    },
+    SOCKET_new: (context, payload) => {
+      //state.onLine = data.onLine;
+      context.commit('newSet', payload);
     },
   },
   plugins: [createPersistedState()],

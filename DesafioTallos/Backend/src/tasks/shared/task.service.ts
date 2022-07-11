@@ -3,9 +3,6 @@ import { Task } from './task';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { Strategy } from 'passport-local';
-import { PassportStrategy } from '@nestjs/passport';
-import { AuthService } from 'src/auth/shared/auth.service';
 
 //injeção das tarefas de Service
 @Injectable()
@@ -24,7 +21,6 @@ export class TaskService {
 
   async findByEmail(email: string): Promise<Task> {
     const usuarioEncontrado = this.taskModel.findOne({ email });
-    //console.log(usuarioEncontrado);
     return usuarioEncontrado;
   }
 

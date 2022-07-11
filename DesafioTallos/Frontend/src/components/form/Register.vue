@@ -40,7 +40,6 @@
           <option :value="null" disabled>Teste</option>
           <option :value="false">Comum</option>
           <option :value="true">Admin</option>
-          <!-- <option v-for="carne in carnes" :key="carne.id" :value="carne.tipo">{{ carne.tipo }}</option>       -->
         </select>
       </div>
       <!-- <div v-if="isSubmitted && $v.user.permission.$required" class="invalid-feedback"></div>       -->
@@ -54,9 +53,13 @@
 
 <script>
 import { required } from '@vuelidate/validators'
+import { io } from 'socket.io-client'
+import { onBeforeMount, ref } from 'vue';
 import TaskService from '../../services/TaskService';
 import axios from "axios";
 import Api from '../../services/Api';
+
+const socket = io('http://localhost:3000')
 
 export default {
   name: "Register",
@@ -70,6 +73,7 @@ export default {
         work: null,
         permission: null
     },
+    task:[],
     isSubmitted: false,
   }
   },
@@ -83,24 +87,26 @@ export default {
        permission: {required},
     }
   },
-  methods: {
-    handleSubmitForm() {
-       this.isSubmitted = true;
-    },
-    async submitNewUser(){
-         try {
-          //  await TaskService.createNewUser(this.user)
-           const response = await axios.post('http://localhost:3000/tasks/', this.user)
-           //return console.log(JSON.stringify(response.data))
-           //this.$store.dispatch('userGet',response.data.body)
-           this.$router.push({
-             name: 'home',
-           }).catch(() => {});;
-         } catch (error) {
-            return console.log(error)
-         }
-       }
-  }
+   methods: {
+     handleSubmitForm() {
+        this.isSubmitted = true;
+     },
+     async submitNewUser(){
+          try {
+            //await TaskService.createNewUser(this.user)
+            const response = await axios.post('http://localhost:3000/tasks/', this.user);
+            //return console.log(JSON.stringify(response.data))
+            socket.emit('newUsers', {task: response}, (response) => {
+              this.$store.dispatch('SOCKET_new', response)
+            });
+            this.$router.push({
+              name: 'home',
+            }).catch(() => {});;
+          } catch (error) {
+             return console.log(error)
+          }
+        }
+   }
 }
 </script>
 

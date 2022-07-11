@@ -22,7 +22,11 @@
 <script>
 import { required } from '@vuelidate/validators'
 import Logo from '../Logo.vue';
+import {useStore} from "vuex";
 import axios from "axios";
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:3000')
 
 export default {
     name: "Login",
@@ -38,6 +42,9 @@ export default {
     isSubmitted: false,
   }
   },
+   setup () {
+    const store = useStore()
+  },
   validations:{
     user: {
       email: {required},
@@ -52,7 +59,11 @@ export default {
          try {
           //  await TaskService.createNewUser(this.user)
            const response = await axios.post('http://localhost:3000/login', this.user)
-           this.$store.dispatch('authSet',response.data)
+           await this.$store.dispatch('authSet',response.data)
+           socket.emit('userLog', {name: response.data.user.name },
+           () => {
+            this.$store.dispatch('joinSet', true)
+           });
            this.$router.push({
              name: 'home',
            }).catch(() => {});;

@@ -10,10 +10,11 @@ import { TasksModule } from 'src/tasks/tasks.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './shared/auth.service';
 import { ConfigService } from '@nestjs/config';
-import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
-import { TaskService } from 'src/tasks/shared/task.service';
+import { AuthGateway } from './auth.gateway';
+// import { MessagesModule } from 'src/messages/messages.module';
+// import { MessagesService } from 'src/messages/messages.service';
 require('dotenv').config();
 
 @Module({
@@ -26,7 +27,7 @@ require('dotenv').config();
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, ConfigService],
+  providers: [AuthService, AuthGateway, LocalStrategy, ConfigService],
   exports: [AuthService],
 })
 export class AuthModule implements NestModule {

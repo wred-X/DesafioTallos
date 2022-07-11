@@ -5,19 +5,19 @@
     </div>
     <div class="input-container">
       <label for="name">Nome do funcionario:</label>
-      <input v-model="data.name" class="form-control" placeholder="Nome" required>
+      <input v-model="user.name" class="form-control" placeholder="Nome" required>
     </div>
     <div class="input-container">
       <label for="email">Coloque seu melhor Email:</label>
-      <input v-model="data.email" type="email" class="form-control" placeholder="Email" required>
+      <input v-model="user.email" type="email" class="form-control" placeholder="Email" required>
     </div>
     <div class="input-container">
       <label for="password">Senha para acesso:</label>
-      <input v-model="data.password" type="password" class="form-control" placeholder="Senha" required>
+      <input v-model="user.password" type="password" class="form-control" placeholder="Senha" required>
     </div>
     <div class="input-container">
       <label for="work">Em que área ele irá atuar ?</label>
-      <input v-model="data.work" class="form-control" placeholder="Função" required>
+      <input v-model="user.work" class="form-control" placeholder="Função" required>
     </div>
     <div class="select-container">
       <div class="select" style="padding-right: 24px;">
@@ -29,7 +29,6 @@
         <select name="work" id="work" v-model="work">
           <option value="">Comum</option>
           <option value="">Admin</option>
-          <!-- <option v-for="carne in carnes" :key="carne.id" :value="carne.tipo">{{ carne.tipo }}</option>       -->
         </select>
       </div>
     </div>
@@ -41,8 +40,6 @@
 
 <script>
 import { required } from '@vuelidate/validators'
-import {reactive} from 'vue';
-import {useRouter} from "vue-router";
 
 export default {
   name: "Edit",
@@ -84,10 +81,12 @@ export default {
           //  await TaskService.createNewUser(this.user)
           //  await axios.put(`http://localhost:3000/task`, (this.user))
            const response = await axios.put('http://localhost:3000/tasks/', this.user)
-           return console.log(JSON.stringify(response.data))
-           this.$router.push({
-             name: 'home',
-           }).catch(() => {});;
+          //  socket.emit('newUsers', {task: response}, (response) => {
+          //     this.$store.dispatch('SOCKET_new', response)
+          //   });
+            this.$router.push({
+              name: 'home',
+            }).catch(() => {});;
          } catch (error) {
             return console.log(error)
          }
