@@ -1,8 +1,8 @@
 <template>
-<div v-for="funcionario in get_all" :key="funcionario._id" class="container">
+<div class="container">
     <div class="card">
         <img src="/img/avatar.png" alt="Person" class="card__image">
-        <p class="card__name" style="font-family: 'Baloo Paaji 2', cursive;">{{$store.state.user.name}}</p>
+        <p class="card__name" style="font-family: 'Baloo Paaji 2', cursive;">{{profile.name}}</p>
     </div>
     <div class="info-container">
         <div class="card-info">
@@ -10,15 +10,15 @@
             <div class="row">
                 <div class="infodiv">
                     <p class="nameinfo">Email :</p>
-                    <h6 class="text-muted">{{$store.state.user.email}}</h6>
+                    <h6 class="text-muted">{{profile.email}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Idade :</p>
-                    <h6 class="text-muted">{{$store.state.user.age}}</h6>
+                    <h6 class="text-muted">{{profile.age}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Area de atuação :</p>
-                    <h6 class="text-muted" style="text-align: center;">{{$store.state.user.description}}</h6>
+                    <h6 class="text-muted" style="text-align: center;">{{profile.description}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Telefone :</p>
@@ -30,17 +30,30 @@
 </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   name: 'MyProfile',
   data() {
     return { 
-      get_all:[
-        {_id: 1, usuario: 'Wesley Romão', age: 20,  work: "Dono",
-      email: "teste@gmail.com"},
-      ],
+      profile: {},
+      user_info: this.$store.state.user._id,
       owner: true,
     }
   },
+  mounted() {
+     this.getById(this.user_info);
+   },
+   methods: {
+     async getById(id){
+       const response = await axios.get(`http://localhost:3000/tasks/${id}`)
+       if(response.status == 200){
+         this.profile = response.data
+       }else{
+         console.log(error)
+       }
+     },
+   }
 }
 </script>
 
@@ -48,7 +61,7 @@ export default {
 .container{
     background-color: #222831;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     background-color: #f5f5f5;
 }
@@ -56,7 +69,7 @@ export default {
   padding-left: 60px;
   padding-right: 60px;
   background-color: #222831;
-  height: 600px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -23,6 +23,9 @@ import { NestResponse } from 'src/core/http/nest-response';
 import { IsPublic } from 'src/auth/decorators/is-public-decorator';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { MessagesGateway } from 'src/messages/messages.gateway';
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('tasks')
 @Controller('tasks')
 @SerializeOptions({
   excludePrefixes: ['password'],

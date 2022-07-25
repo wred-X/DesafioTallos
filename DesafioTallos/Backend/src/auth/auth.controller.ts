@@ -21,7 +21,9 @@ import { AuthRequest } from './models/AuthRequest';
 import { AuthGateway } from './auth.gateway';
 import { IsPublic } from './decorators/is-public-decorator';
 import { InterceptorForClassSerializer } from 'src/tasks/shared/interceptor';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller()
 @SerializeOptions({
   excludePrefixes: ['password'],

@@ -9,7 +9,9 @@ import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { Socket, Server } from 'socket.io';
 import { Task } from '../tasks/shared/task';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('messages')
 @WebSocketGateway({
   cors: {
     origin: '*',

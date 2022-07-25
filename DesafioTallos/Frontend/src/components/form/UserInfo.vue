@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-      <div class="profile">
+      <div class="profile" style="width: 225px;">
       <Picture />
-      <h1 class="myName">{{$store.state.user.name}}, {{$store.state.user.age}} anos</h1>
+      <h1 class="myName">{{profile.name}}, {{profile.age}} anos</h1>
       </div>
       <div style="align-self:center;">
         <h1>Bem vindo ao nosso sistema!</h1>
@@ -15,8 +15,8 @@
 <script>
 import Picture from './Picture.vue';
 import Logo from '../Logo.vue';
-import {onMounted, ref} from 'vue';
-import {useStore} from "vuex";
+import axios from 'axios';
+
 export default {
   name: 'UserInfo',
   components: {
@@ -26,32 +26,34 @@ export default {
   data() {
     return { 
       image: "/Frontend/../img/login.png",
-      name: null,
-      age: 20,
-      work: "Dono",
-      email: "teste@gmail.com",
-      owner: true,
-      editor: false,
-      textEdit: "Abrir editor",
-    }
-  },
-  setup () {
-    const store = useStore()
-  },
-  created() {
-    this.nome = "Wesley Romão"
-  },
-  methods: {
-    showEdit() {
-      this.edit = !this.edit
-      if(!this.edit) {
-        this.textEdit = "Editar funcionario"
-      } else {
-        console.log("editor aberto")
-        this.textEdit = "Concluir edição"
+      profile: {
+        name: null,
+        age: null,
       }
     }
-  }
+  },
+   mounted() {
+     this.getById(this.$store.state.user._id);
+   },
+   methods: {
+     async getById(id){
+       const response = await axios.get(`http://localhost:3000/tasks/${id}`)
+       if(response.status == 200){
+         this.profile = response.data
+       }else{
+         console.log(error)
+       }
+     },
+     //   showEdit() {
+     //     this.edit = !this.edit
+     //     if(!this.edit) {
+     //       this.textEdit = "Editar funcionario"
+     //     } else {
+     //       console.log("editor aberto")
+     //       this.textEdit = "Concluir edição"
+     //     }
+     //   }
+   }
 }
 </script>
 

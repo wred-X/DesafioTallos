@@ -93,9 +93,7 @@ export default {
      },
      async submitNewUser(){
           try {
-            //await TaskService.createNewUser(this.user)
             const response = await axios.post('http://localhost:3000/tasks/', this.user);
-            //return console.log(JSON.stringify(response.data))
             socket.emit('newUsers', {task: response}, (response) => {
               this.$store.dispatch('SOCKET_new', response)
             });

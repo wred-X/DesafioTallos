@@ -42,15 +42,25 @@ export default {
     isSubmitted: false,
   }
   },
-   setup () {
-    const store = useStore()
-  },
   validations:{
     user: {
       email: {required},
        password: {required},
     }
   },
+  // mounted(){
+  //   if (localStorage.logged) {
+  //     this.logged = JSON.parse(localStorage.logged)
+  //   }
+  // },
+  // watch: {
+  //   logged: {
+  //     handler(userLogged) {
+  //       localStorage.logged = JSON.stringify(userLogged);
+  //     },
+  //     deep: true
+  //   },
+  // },
   methods: {
     handleSubmitForm() {
        this.isSubmitted = true;
@@ -59,7 +69,8 @@ export default {
          try {
           //  await TaskService.createNewUser(this.user)
            const response = await axios.post('http://localhost:3000/login', this.user)
-           await this.$store.dispatch('authSet',response.data)
+           //await localStorage.setItem('user', JSON.stringify(response.data));
+           await this.$store.dispatch('AUTH_SET', response)
            socket.emit('userLog', {name: response.data.user.name },
            () => {
             this.$store.dispatch('joinSet', true)

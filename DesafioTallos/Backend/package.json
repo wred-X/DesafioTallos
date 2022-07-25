@@ -21,14 +21,15 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/common": "^8.0.0",
+    "@nestjs/common": "^8.4.7",
     "@nestjs/config": "^2.1.0",
-    "@nestjs/core": "^8.4.6",
+    "@nestjs/core": "^8.4.7",
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/mongoose": "^9.1.0",
     "@nestjs/passport": "^8.2.2",
-    "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/platform-express": "^8.4.7",
     "@nestjs/platform-socket.io": "^8.4.7",
+    "@nestjs/swagger": "^5.2.1",
     "@nestjs/websockets": "^8.4.7",
     "@types/cookie": "^0.5.1",
     "@types/socket.io": "^3.0.2",
@@ -39,14 +40,15 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "mongoose": "^6.2.2",
-    "passport": "^0.5.3",
+    "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "socket.io": "^4.5.1",
-    "socket.io-client": "^4.5.1"
+    "socket.io-client": "^4.5.1",
+    "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

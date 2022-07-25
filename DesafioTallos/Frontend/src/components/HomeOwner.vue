@@ -1,11 +1,33 @@
-<template  onload="userIn()">
+<template>
   <UserInfo/>
   <div id="toast"><div id="img">Olá!</div><div id="desc">{{userSocket}} está online!</div></div>
-  <div class="Home">
-    <!-- <label class="Title">Admin</label> -->
-    <label class="work">Esses são os seus Funcionarios:</label>
-    <div class="workers">
-       <Card/>
+  <div>
+    <div>
+      <div v-if="this.owner===true" class="Home">
+        <!-- <label class="Title">Admin</label> -->
+        <label class="work">Esses são os seus Funcionarios:</label>
+        <div class="w-64 mx-auto">
+                <Autocomplete
+                    v-model="city"
+                    :options="cities"
+                    label-key="label"
+                    value-key="id"
+                    placeholder="Search cities"
+                    @shouldSearch="searchCities"
+                    @select="onSelect"
+                />
+            </div>
+        <div class="workers">
+          <Card/>
+        </div>
+      </div>
+      <div v-else class="Home">
+        <!-- <label class="Title">Home de Funcionario</label> -->
+        <label class="work">Esses são seus colegas de trabalho:</label>
+        <div class="workers">
+          <Card/>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -13,6 +35,7 @@
 </template>
 <script>
 import UserInfo from './form/UserInfo.vue'
+import Autocomplete from './Search.vue';
 import Card from './Card.vue'
 import { io } from 'socket.io-client'
 
@@ -23,11 +46,14 @@ export default {
   components:{
     Card,
     UserInfo,
+    Autocomplete
 },
   data() {
     return {
       userSocket: null,
-      // socket: null,
+      owner: this.$store.state.owner,
+      city: '',
+      cities: [],
     }
   },
   mounted() {
@@ -36,7 +62,6 @@ export default {
   methods: {
     userIn() {
       socket.on('userLog', (response) => {
-        console.log(response.name)
         this.userSocket = response.name;
         return this.launch_toast();
       });
@@ -45,7 +70,15 @@ export default {
       var x = document.getElementById("toast")
       x.className = "show";
       setTimeout(function(){ x.className = x.className.replace("show", ""); }, 7000);
-    }
+    },
+    searchCities(query) {
+      fetch(`http://statecity.test/api/v1/?query=${query}`).then(response => response.json()).then((r) => {
+      this.cities = r.data;
+      });
+    },
+    onSelect(city) {
+      console.log(city);
+    },
   },
 }
 </script>
@@ -53,7 +86,7 @@ export default {
 <style scoped>
 .Home {
     display: grid;
-    padding: 0 2rem;
+    height: 100vh; /* Note a medida */
     background-color: #f5f5f5;
   }
 .Title {
@@ -73,10 +106,9 @@ export default {
   grid-template-columns: 300px 300px 300px;
   grid-gap: 50px;
   justify-content: center;
-  align-items: center;
-  height: 440px;
   background-color: #f5f5f5;
   font-family: 'Baloo Paaji 2', cursive;
+  padding-bottom: 50px;
 }
 
 #toast {

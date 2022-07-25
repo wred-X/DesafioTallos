@@ -1,45 +1,61 @@
 <template>
-  <form class="container-edit" @submit.prevent="submit">
+   <form class="container-edit" @submit.prevent="handleSubmitForm()">
     <div class="title-container">
-      <h1 class="title">Alteração de dados!</h1>
+      <h1 class="title">Editar dados!</h1>
     </div>
     <div class="input-container">
       <label for="name">Nome do funcionario:</label>
-      <input v-model="user.name" class="form-control" placeholder="Nome" required>
+      <input 
+        v-model="user.name" 
+        :class="{'is-invalid': isSubmitted && $v.user.name.$error}" 
+        class="form-control" 
+        placeholder="Nome" 
+        required
+      >
+      <div v-if="isSubmitted && $v.user.name.$required" class="invalid-feedback"></div>
     </div>
     <div class="input-container">
       <label for="email">Coloque seu melhor Email:</label>
-      <input v-model="user.email" type="email" class="form-control" placeholder="Email" required>
+      <input v-model="user.email" :class="{'is-invalid': isSubmitted && $v.user.email.$error}" type="email" class="form-control" placeholder="Email" required>
+      <div v-if="isSubmitted && $v.user.email.$required" class="invalid-feedback"></div>
     </div>
     <div class="input-container">
       <label for="password">Senha para acesso:</label>
-      <input v-model="user.password" type="password" class="form-control" placeholder="Senha" required>
+      <input v-model="user.password" :class="{'is-invalid': isSubmitted && $v.user.password.$error}" type="password" class="form-control" placeholder="Senha" required>
+      <div v-if="isSubmitted && $v.user.password.$required" class="invalid-feedback"></div>
     </div>
     <div class="input-container">
       <label for="work">Em que área ele irá atuar ?</label>
-      <input v-model="user.work" class="form-control" placeholder="Função" required>
+      <input v-model="user.work" :class="{'is-invalid': isSubmitted && $v.user.work.$error}" class="form-control" placeholder="Função" required>
+      <div v-if="isSubmitted && $v.user.work.$required" class="invalid-feedback"></div>
     </div>
     <div class="select-container">
       <div class="select" style="padding-right: 24px;">
-        <label for="work" style="padding-left: 2px;">Idade:</label>
-        <input style="width: 40px;" name="age" id="age" v-model="age">
+        <label for="age" style="padding-left: 2px;">Idade:</label>
+        <input placeholder="XX" v-model="user.age" :class="{'is-invalid': isSubmitted && $v.user.age.$error}" style="width: 40px;" name="age" id="age" required>
       </div>
       <div class="select">
-        <label for="work">Permissão</label>
-        <select name="work" id="work" v-model="work">
-          <option value="">Comum</option>
-          <option value="">Admin</option>
+        <label for="permission">Permissão</label>
+        <select required name="permission" id="permission" v-model="user.permission" :class="{'is-invalid': isSubmitted && $v.user.permission.$error}">
+          <option :value="null" disabled>Teste</option>
+          <option :value="false">Comum</option>
+          <option :value="true">Admin</option>
         </select>
       </div>
+      <!-- <div v-if="isSubmitted && $v.user.permission.$required" class="invalid-feedback"></div>       -->
     </div>
     <div class="input-container">
-          <input class="submit-btn" type="submit" value="Confirmar alteração!">
+          <input @click="submitEditUser(this.profileId)" class="submit-btn" type="submit" value="Confirmar alteração!">
     </div>
   </form>
 </template>
 
 <script>
 import { required } from '@vuelidate/validators'
+import { io } from 'socket.io-client'
+import axios from 'axios';
+
+const socket = io('http://localhost:3000')
 
 export default {
   name: "Edit",
@@ -49,12 +65,13 @@ export default {
         email: null,
         password: null,
         name: null,
-        age: parseInt(null),
+        age: null,
         work: null,
         permission: null
-    },
-    isSubmitted: false,
-  }
+      },
+      isSubmitted: false,
+      profileId: JSON.parse(localStorage.getItem('findId')),
+    }
   },
   validations:{
     user: {
@@ -69,21 +86,13 @@ export default {
   methods: {
     handleSubmitForm() {
        this.isSubmitted = true;
-
-          // this.$v.$touch();
-          // if (this.$v.$invalid) {
-          //   return;
-          // }
-    
     },
-    async submitNewUser(){
+    async submitEditUser(id){
          try {
-          //  await TaskService.createNewUser(this.user)
-          //  await axios.put(`http://localhost:3000/task`, (this.user))
-           const response = await axios.put('http://localhost:3000/tasks/', this.user)
-          //  socket.emit('newUsers', {task: response}, (response) => {
-          //     this.$store.dispatch('SOCKET_new', response)
-          //   });
+           const response = await axios.put(`http://localhost:3000/tasks/${id}`, this.user)
+            socket.emit('newUsers', {task: response}, (response) => {
+               this.$store.dispatch('SOCKET_new', response)
+             });
             this.$router.push({
               name: 'home',
             }).catch(() => {});;
@@ -98,7 +107,7 @@ export default {
 <style scoped>
 .container-edit{
   background-color: #f5f5f5;
-  height: 91vh;
+  height: 94vh;
 }
 .title-container{
   padding-top: 3%;

@@ -1,5 +1,5 @@
-<template>
-    <div v-for="funcionario in users" :key="funcionario._id" class="card">
+<template >
+    <div @submit.prevent v-for="funcionario in users" :key="funcionario._id" class="card">
     <img src="/img/avatar.png" alt="Person" class="card__image">
     <p class="card__name">{{funcionario.name}}</p>
     <div class="grid-container">
@@ -13,8 +13,8 @@
       </div>
 
     </div>
-    <button class="btn draw-border" @click="$router.push('perfil')">Informações</button>
-    <button v-if="owner=true"  @click="$router.push('editor')" class="btn draw-border">Alterações</button>
+    <button class="btn draw-border" @click="submitViewUser(funcionario._id)" >Informações</button>
+    <button v-show="this.owner===true" @click="submitEditUser(funcionario._id)"  class="btn draw-border">Alterações</button>
   </div>
 
 </template>
@@ -30,7 +30,7 @@ export default {
   data() {
     return { 
       users:[],
-      owner: this.$store.state.user.name,
+      owner: null,
     }
   },
    mounted() {
@@ -41,16 +41,42 @@ export default {
      async getAll(){
        const response = await axios.get('http://localhost:3000/tasks')
        if(response.status == 200){
-         this.users = response.data
+         const dataUser = this.users = response.data
+         this.owner = this.$store.state.user.owner
+         return this.users = dataUser.filter(user => user.name !== this.$store.state.user.name)
        }else{
          console.log(error)
        }
      },
+     //filtrando usuario logado na lista de usuarios
      async newUser(){
         socket.on('task', (response) => {
-          return this.users = response;
+          const dataUser = this.users = response
+          return this.users = dataUser.filter(user => user.name !== this.$store.state.user.name)
         });
-       },
+      },
+     async submitViewUser(profile){
+          try {
+            localStorage.removeItem('findId')
+            this.$router.push({
+              name: 'perfil',
+            }).catch(() => {});
+            return localStorage.setItem('findId', JSON.stringify(profile));
+          } catch (error) {
+            return console.log(error)
+          }
+     },
+     async submitEditUser(profile){
+          try {
+            localStorage.removeItem('findId')
+            this.$router.push({
+              name: 'edit',
+            }).catch(() => {});
+            return localStorage.setItem('findId', JSON.stringify(profile));
+          } catch (error) {
+             return console.log(error)
+          }
+     }
    }
 }
 </script>
@@ -58,7 +84,7 @@ export default {
 <style scoped>
 .card {
   background-color: #222831;
-  height: 440px;
+  padding-bottom: 18px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;

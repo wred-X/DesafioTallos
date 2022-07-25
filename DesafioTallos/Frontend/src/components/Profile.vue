@@ -2,27 +2,27 @@
 <div class="container">
     <div class="card">
         <img src="/img/avatar.png" alt="Person" class="card__image">
-        <p class="card__name" style="font-family: 'Baloo Paaji 2', cursive;">{{funcionario.usuario}}</p>
+        <p class="card__name" style="font-family: 'Baloo Paaji 2', cursive;"></p>
     </div>
     <div class="info-container">
         <div class="card-info">
-            <h6 class="info">Dados de {{funcionario.usuario}}</h6>
+            <h6 class="info">Dados de {{this.profile.name}} </h6>
             <div class="row">
                 <div class="infodiv">
                     <p class="nameinfo">Email :</p>
-                    <h6 class="text-muted">{{funcionario.email}}</h6>
+                    <h6 class="text-muted">{{this.profile.email}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Idade :</p>
-                    <h6 class="text-muted">{{funcionario.age}}</h6>
+                    <h6 class="text-muted">{{this.profile.age}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Area de atuação :</p>
-                    <h6 class="text-muted">{{funcionario.work}}</h6>
+                    <h6 class="text-muted">{{this.profile.description}}</h6>
                 </div>
                 <div class="infodiv">
                     <p class="nameinfo">Telefone :</p>
-                    <h6 class="text-muted">{{funcionario.number}}</h6>
+                    <h6 class="text-muted">85 996038982</h6>
                 </div>
             </div>
         </div>
@@ -30,17 +30,31 @@
 </div>
 </template>
 <script>
+import Card from './Card.vue'
+import axios from 'axios';
+
 export default {
-  name: 'Profile',
-  data() {
+ extends: Card,
+ data () {
     return { 
-      get_all:[
-        {_id: 1, usuario: 'Neymar Jr.', age: 20,  work: "Maquiador",
-      email: "teste@gmail.com", number: 996038982},
-      ],
-      owner: true,
+      profileId: JSON.parse(localStorage.getItem('findId')),
+      owner: this.$store.state.user.name,
+      profile: {}
     }
   },
+  mounted() {
+     this.getById(this.profileId);
+   },
+   methods: {
+     async getById(id){
+       const response = await axios.get(`http://localhost:3000/tasks/${id}`)
+       if(response.status == 200){
+         this.profile = response.data
+       }else{
+         console.log(error)
+       }
+     },
+   }
 }
 </script>
 
@@ -48,7 +62,7 @@ export default {
 .container{
     background-color: #222831;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     background-color: #f5f5f5;
 }
@@ -56,7 +70,7 @@ export default {
   padding-left: 60px;
   padding-right: 60px;
   background-color: #222831;
-  height: 600px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;

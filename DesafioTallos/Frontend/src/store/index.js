@@ -1,40 +1,55 @@
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
+import axios from 'axios';
 //import * as types from './mutation-types';
 
 export const store = createStore({
   state: {
-    user: {
-      _id: null,
-      email: null,
-      name: null,
-      age: null,
-      description: null,
-      owner: null,
-    },
+    user: [],
+    status: '',
     token: '',
     joined: false,
     newUser: {},
   },
   mutations: {
-    authSet(state, payload) {
-      state.token = payload.access_token;
-      state.user = payload.user;
+    AUTH_SUCCESS(state, payload) {
+      state.status = payload;
+      state.token = localStorage.getItem('token');
+      state.user = JSON.parse(localStorage.getItem('user'));
     },
-    joinSet(state, payload) {
+    AUTH_ERROR(state) {
+      state.status = payload;
+    },
+    SOCKET_JOIN(state, payload) {
       state.joined = payload;
     },
-    newSet(state, payload) {
+    NEW_LOG(state, payload) {
       state.newUser = payload;
+    },
+    AUTH_LOGOUT(state) {
+      state.token = '';
+      state.status = '';
     },
   },
   actions: {
-    authSet(context, payload) {
-      context.commit('authSet', payload);
+    AUTH_SET(context, payload) {
+      const data = payload.data;
+      const status = payload.status;
+      try {
+        axios.defaults.headers.common['Authorization'] = data.access_token;
+        localStorage.setItem('token', JSON.stringify(data.access_token));
+        localStorage.setItem('user', JSON.stringify(data.user));
+        console.log(status);
+        context.commit('AUTH_SUCCESS', status);
+      } catch (err) {
+        axios.defaults.headers.common['Authorization'] = null;
+        context.commit(AUTH_ERROR, err);
+        localStorage.removeItem('token');
+      }
       //console.log(payload, 'actions');
     },
     joinSet(context, payload) {
-      context.commit('joinSet', payload);
+      context.commit('SOCKET_JOIN', payload);
     },
     SOCKET_join: (context, payload) => {
       //state.onLine = data.onLine;
@@ -42,8 +57,21 @@ export const store = createStore({
     },
     SOCKET_new: (context, payload) => {
       //state.onLine = data.onLine;
-      context.commit('newSet', payload);
+      context.commit('NEW_LOG', payload);
     },
+    AUTH_LOGOUT: (context) => {
+      return new Promise((resolve, reject) => {
+        context.commit('AUTH_LOGOUT');
+        localStorage.removeItem('user-token');
+        delete axios.defaults.headers.common['Authorization'];
+        resolve();
+      });
+    },
+  },
+  getters: {
+    isOwner: (state) => state.user.owner,
+    isAuthenticated: (state) => !!state.token,
+    authStatus: (state) => state.status,
   },
   plugins: [createPersistedState()],
 });
