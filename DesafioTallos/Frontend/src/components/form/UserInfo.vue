@@ -44,15 +44,6 @@ export default {
          console.log(error)
        }
      },
-     //   showEdit() {
-     //     this.edit = !this.edit
-     //     if(!this.edit) {
-     //       this.textEdit = "Editar funcionario"
-     //     } else {
-     //       console.log("editor aberto")
-     //       this.textEdit = "Concluir edição"
-     //     }
-     //   }
    }
 }
 </script>

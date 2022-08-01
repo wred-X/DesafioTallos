@@ -7,10 +7,24 @@ import { UnauthorizedError } from '../errors/unauthorized.error';
 import { UserPayload } from '../models/UserPayload';
 import { UserToken } from '../models/UserToken';
 import { ConfigService } from '@nestjs/config';
+import { Socket, Server } from 'socket.io';
+import {
+  WebSocketGateway,
+  SubscribeMessage,
+  MessageBody,
+  WebSocketServer,
+  ConnectedSocket,
+} from '@nestjs/websockets';
 //import { MessagesService } from '../../messages/messages.service';
-
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
 @Injectable()
 export class AuthService {
+  @WebSocketServer()
+  server: Server;
   constructor(
     //private readonly messagesService: MessagesService,
     private readonly jwtService: JwtService,
@@ -24,7 +38,9 @@ export class AuthService {
       email: task.email,
       name: task.name,
     };
-
+    this.server.emit('user-login', payload.sub, () => {
+      console.log('logou');
+    });
     return {
       access_token: this.jwtService.sign(payload),
       user: task,

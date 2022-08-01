@@ -18,7 +18,7 @@ export default {
    * Método responsável por logar um(a) 'user'
    * (POST): localhost:=3000/api/login
    */
-  async login() {
+  async login(user) {
     try {
       const response = await Api().post('/login', user);
       return response.data;
@@ -57,9 +57,8 @@ export default {
    * Método responsável por atualizar um determinado 'user' por Id
    * (PUT): localhost:=3000/api/tasks/:id
    */
-  async updateEmployee(user) {
+  async updateEmployee(id, user) {
     try {
-      const id = user.user_id;
       const response = await Api().put(`/tasks/${id}`, user);
       return response.data;
     } catch (error) {

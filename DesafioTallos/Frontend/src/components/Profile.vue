@@ -27,11 +27,20 @@
             </div>
         </div>
     </div>
+    <div>
+      <div class="deletar">
+        <button v-show="this.owner===true" @click="showAlert(this.profileId)" style="width: 80px; align-self: center; font-size: 18px; font-weight: bold; margin-top: 16px; margin-right: 16px; color: #f5f5f5; background-color: #e32636; border-color: black;">Deletar</button>
+      </div>
+    </div>
 </div>
 </template>
 <script>
 import Card from './Card.vue'
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:3000')
 
 export default {
  extends: Card,
@@ -46,6 +55,45 @@ export default {
      this.getById(this.profileId);
    },
    methods: {
+    async showAlert(id) {
+      // Use sweetalert2
+      Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Essa ação não sera revertida!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Deletar!',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.submitDelete(id)
+          Swal.fire({
+            title:'Está feito!',
+            text:'Seu funcionario foi deletado!',
+            icon:'success'
+          }).then((result) => {
+          if (result.isConfirmed) {
+            this.$router.push({
+            name: 'home',
+          }).catch(() => {});;
+          }
+        })
+        }
+      })
+    },
+    async submitDelete (id) {
+      try {
+        const response = await axios.delete(`http://localhost:3000/tasks/${id}`)
+        console.log(response.data)
+         socket.emit('newUsers', {task: response}, (response) => {
+           this.$store.dispatch('SOCKET_new', response)
+         });
+      } catch (error) {
+        return console.log(error)
+      }
+     },
      async getById(id){
        const response = await axios.get(`http://localhost:3000/tasks/${id}`)
        if(response.status == 200){

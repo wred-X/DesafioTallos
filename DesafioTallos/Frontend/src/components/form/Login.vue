@@ -69,15 +69,21 @@ export default {
          try {
           //  await TaskService.createNewUser(this.user)
            const response = await axios.post('http://localhost:3000/login', this.user)
-           //await localStorage.setItem('user', JSON.stringify(response.data));
+           const token = localStorage.getItem('token');
+           if (token !== response.data.access_token ){
            await this.$store.dispatch('AUTH_SET', response)
-           socket.emit('userLog', {name: response.data.user.name },
+           socket.emit('userLog', {name: response.data.user.name, _id: response.data.user._id},
            () => {
             this.$store.dispatch('joinSet', true)
            });
            this.$router.push({
              name: 'home',
            }).catch(() => {});;
+           } else {
+            this.$router.push({
+             name: 'login',
+           }).catch(() => {});;
+           }
          } catch (error) {
             return console.log(error)
          }

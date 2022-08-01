@@ -10,6 +10,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { Socket, Server } from 'socket.io';
 import { Task } from '../tasks/shared/task';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateLogDto } from './dto/create-log.dto';
 
 @ApiTags('messages')
 @WebSocketGateway({
@@ -48,11 +49,14 @@ export class MessagesGateway {
   @SubscribeMessage('userLog')
   async newLog(
     @MessageBody('name') name: string,
+    @MessageBody('_id') _id: string,
     @ConnectedSocket() client: Socket
   ) {
     await this.messagesService.indentify(name, client.id);
-    this.server.emit('userLog', { name });
-    return name;
+    //const login = await this.messagesService.getById(_id);
+    this.server.emit('userLog', { name, _id });
+    //this.server.emit('idLog', _id);
+    return name && _id;
   }
 
   @SubscribeMessage('join')

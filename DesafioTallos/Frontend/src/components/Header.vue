@@ -41,7 +41,7 @@ import { RouterLink } from 'vue-router'
         <RouterLink style="align-self: center; font-size: 18px; font-weight: bold;" to="/meuPerfil">Perfil</RouterLink>
         </ul>
         <ul v-show="this.owner===true" class="edit">
-        <RouterLink @click="submitEditUser(this.$store.state.user._id)" style="align-self: center; font-size: 18px; font-weight: bold;" to="/editar">Editar meu perfil</RouterLink>
+        <RouterLink @click="submitEditUser(this.$store.state.user._id)" style="align-self: center; font-size: 18px; font-weight: bold;" to="/editor">Editar meu perfil</RouterLink>
         </ul>
         <ul v-show="this.owner===true" class="sign">
         <RouterLink style="align-self: center; font-size: 18px; font-weight: bold;" to="/registro">Registro</RouterLink>

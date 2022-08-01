@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  main:
+    container_name: 'app-back'
+    build: '.'
+    volumes:
+      - '.:/main:rw'
+      - '/main/node_modules'
+    environment:
+      MONGO_URI: 'mongodb+srv://wesley_sromao:lumia710@clustertallos.dcrthpa.mongodb.net/?retryWrites=true&w=majority'
+    ports:
+      - '3000:3000'

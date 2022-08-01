@@ -2,14 +2,17 @@ import { Injectable, Inject } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { Task } from '../tasks/shared/task';
 import { Message } from './entities/message.entity';
+import { Log } from './entities/log.entity';
 import { use } from 'passport';
-import { TaskService } from 'src/tasks/shared/task.service';
+import { TaskService } from '../tasks/shared/task.service';
+import { CreateLogDto } from './dto/create-log.dto';
 
 @Injectable()
 export class MessagesService {
   constructor(private taskService: TaskService) {}
   task: Task[];
   messages: Message[] = [{ name: 'Wesley', text: 'oiii' }];
+  log: Log[] = [{ _id: '1' }];
   clientToUser = {};
 
   indentify(name: string, clientId: string) {
@@ -21,6 +24,14 @@ export class MessagesService {
   findMe(clientId: string) {
     //console.log(clientId);
     return this.clientToUser[clientId];
+  }
+
+  logs(createLogDto: CreateLogDto) {
+    const log = {
+      _id: createLogDto._id,
+    };
+    this.log.push(log);
+    return log;
   }
 
   getClientName(clientId: string) {
@@ -39,6 +50,10 @@ export class MessagesService {
 
   async getUser() {
     return this.taskService.getAll();
+  }
+
+  async getById(id) {
+    return this.taskService.getById(id);
   }
 
   async findAll() {

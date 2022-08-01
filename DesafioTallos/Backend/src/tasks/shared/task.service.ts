@@ -3,6 +3,7 @@ import { Task } from './task';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { response } from 'express';
 
 //injeção das tarefas de Service
 @Injectable()

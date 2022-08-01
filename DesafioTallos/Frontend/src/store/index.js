@@ -1,6 +1,10 @@
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
+import Swal from 'sweetalert2';
 import axios from 'axios';
+import { io } from 'socket.io-client';
+
+const socket = io('http://localhost:3000');
 //import * as types from './mutation-types';
 
 export const store = createStore({
@@ -10,14 +14,17 @@ export const store = createStore({
     token: '',
     joined: false,
     newUser: {},
+    myLog: null,
+    idUser: '',
   },
   mutations: {
     AUTH_SUCCESS(state, payload) {
       state.status = payload;
-      state.token = localStorage.getItem('token');
       state.user = JSON.parse(localStorage.getItem('user'));
+      state.token = localStorage.getItem('token');
+      state.idUser = localStorage.getItem('idUser');
     },
-    AUTH_ERROR(state) {
+    AUTH_ERROR(state, payload) {
       state.status = payload;
     },
     SOCKET_JOIN(state, payload) {
@@ -26,9 +33,14 @@ export const store = createStore({
     NEW_LOG(state, payload) {
       state.newUser = payload;
     },
+    NEW_LOGIN(state) {
+      state.myLog = true;
+    },
     AUTH_LOGOUT(state) {
       state.token = '';
       state.status = '';
+      state.myLog = false;
+      state.idUser = '';
     },
   },
   actions: {
@@ -36,15 +48,18 @@ export const store = createStore({
       const data = payload.data;
       const status = payload.status;
       try {
-        axios.defaults.headers.common['Authorization'] = data.access_token;
-        localStorage.setItem('token', JSON.stringify(data.access_token));
+        axios.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${data.access_token}`;
+        localStorage.setItem('token', data.access_token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        console.log(status);
+        localStorage.setItem('idUser', data.user._id)
         context.commit('AUTH_SUCCESS', status);
       } catch (err) {
         axios.defaults.headers.common['Authorization'] = null;
-        context.commit(AUTH_ERROR, err);
+        context.commit('AUTH_ERROR', err);
         localStorage.removeItem('token');
+        resolve();
       }
       //console.log(payload, 'actions');
     },
@@ -59,10 +74,15 @@ export const store = createStore({
       //state.onLine = data.onLine;
       context.commit('NEW_LOG', payload);
     },
+    SOCKET_LOG: (context) => {
+      //state.onLine = data.onLine;
+      context.commit('NEW_LOGIN');
+    },
     AUTH_LOGOUT: (context) => {
       return new Promise((resolve, reject) => {
         context.commit('AUTH_LOGOUT');
-        localStorage.removeItem('user-token');
+        localStorage.removeItem('token');
+        localStorage.removeItem('idUser');
         delete axios.defaults.headers.common['Authorization'];
         resolve();
       });

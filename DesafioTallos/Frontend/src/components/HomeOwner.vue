@@ -6,17 +6,6 @@
       <div v-if="this.owner===true" class="Home">
         <!-- <label class="Title">Admin</label> -->
         <label class="work">Esses são os seus Funcionarios:</label>
-        <div class="w-64 mx-auto">
-                <Autocomplete
-                    v-model="city"
-                    :options="cities"
-                    label-key="label"
-                    value-key="id"
-                    placeholder="Search cities"
-                    @shouldSearch="searchCities"
-                    @select="onSelect"
-                />
-            </div>
         <div class="workers">
           <Card/>
         </div>
@@ -37,6 +26,7 @@
 import UserInfo from './form/UserInfo.vue'
 import Autocomplete from './Search.vue';
 import Card from './Card.vue'
+import Swal from 'sweetalert2';
 import { io } from 'socket.io-client'
 
 const socket = io('http://localhost:3000')
@@ -46,38 +36,58 @@ export default {
   components:{
     Card,
     UserInfo,
-    Autocomplete
 },
   data() {
     return {
+      teste: 0,
       userSocket: null,
+      idCompare: null,
       owner: this.$store.state.owner,
-      city: '',
-      cities: [],
     }
   },
   mounted() {
-    this.userIn()
+    this.userIn();
+      socket.on('user-login', (response) => {
+        let sessionId = localStorage.getItem('idUser')
+        if ( String(sessionId) == String(response)){
+          setTimeout(() => {
+          Swal.fire({
+            title: 'Você já está logado!',
+            ext: 'Essa conta não permite acesso simultaneo',
+            icon: 'error',
+            confirmButtonColor: '#00ff7f',
+            confirmButtonText: 'Entendido!',
+          })
+          this.submitLogOut()
+          }, 3000)
+        }
+        else{
+            console.log('primeiro login')
+        }
+        })
   },
   methods: {
-    userIn() {
-      socket.on('userLog', (response) => {
-        this.userSocket = response.name;
-        return this.launch_toast();
-      });
+  
+     async userIn() {
+   
+       socket.on('userLog', (response) => {
+         this.userSocket = response.name;
+    
+         if (this.userSocket !== this.$store.state.user.name){
+           return this.launch_toast();
+         }
+       });
+     },
+    async submitLogOut () {
+        await this.$store.dispatch('AUTH_LOGOUT')
+        .then(() => {
+        this.$router.push('/login')
+      })
     },
     launch_toast() {
       var x = document.getElementById("toast")
       x.className = "show";
       setTimeout(function(){ x.className = x.className.replace("show", ""); }, 7000);
-    },
-    searchCities(query) {
-      fetch(`http://statecity.test/api/v1/?query=${query}`).then(response => response.json()).then((r) => {
-      this.cities = r.data;
-      });
-    },
-    onSelect(city) {
-      console.log(city);
     },
   },
 }

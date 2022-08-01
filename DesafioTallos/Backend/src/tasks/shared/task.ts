@@ -18,6 +18,7 @@ export class Task {
   _id: string;
 
   @ApiProperty({
+    description: 'email de usuario',
     example: 'email@gmail.com',
   })
   @Expose({ name: 'email' })
@@ -76,4 +77,14 @@ export class Task {
   @ApiProperty()
   @Expose({ name: 'permission' })
   owner: boolean;
+
+  constructor(todo?: Partial<Task>) {
+    this._id = todo?._id;
+    this.email = todo?.email;
+    this.password = todo?.password;
+    this.age = todo?.age;
+    this.name = todo?.name;
+    this.description = todo?.description;
+    this.owner = todo?.owner;
+  }
 }

@@ -15,15 +15,14 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { TaskService } from './shared/task.service';
-import { TaskGateway } from './shared/task.gateway';
 import { Task } from './shared/task';
 import { InterceptorForClassSerializer } from './shared/interceptor';
-import { NestResponseBuilder } from 'src/core/http/nest-response-builder';
-import { NestResponse } from 'src/core/http/nest-response';
-import { IsPublic } from 'src/auth/decorators/is-public-decorator';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { MessagesGateway } from 'src/messages/messages.gateway';
+import { NestResponseBuilder } from '../core/http/nest-response-builder';
+import { NestResponse } from '../core/http/nest-response';
+//import { IsPublic } from 'src/auth/decorators/is-public-decorator';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from 'src/auth/decorators/is-public-decorator';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -33,15 +32,11 @@ import { ApiTags } from '@nestjs/swagger';
 @UseInterceptors(InterceptorForClassSerializer)
 export class TasksController {
   //constructor com chamada das Tarefas que estão no service
-  constructor(
-    private taskService: TaskService,
-    private taskGateway: TaskGateway
-  ) {}
+  constructor(private taskService: TaskService) {}
 
   //async para utilização dos Promise's
 
   //rota get, retornando todos os users
-  @IsPublic()
   @Get()
   async getAll(): Promise<Task[]> {
     return this.taskService.getAll();
@@ -54,38 +49,33 @@ export class TasksController {
   }
 
   //rota get, retornando user por id
-  //to do: retorna validação de login de user por email e senha
-  @IsPublic()
   @Get(':id')
   async getById(@Param('id') id: string): Promise<Task> {
     return this.taskService.getById(id);
   }
 
   //rota post, criar user
-  @IsPublic()
   @Post()
   async create(@Body() task: Task): Promise<NestResponse> {
     const usuarioCriado = await this.taskService.create(task);
     return new NestResponseBuilder()
       .comStatus(HttpStatus.CREATED)
+      .comBody(usuarioCriado)
       .comHeaders({
         Location: `/tasks/${usuarioCriado._id}`,
       })
-      .comBody(usuarioCriado)
       .build();
   }
 
   //rota put, alterar user, incluindo permições
-  @IsPublic()
   @Put(':id')
   async update(@Param('id') id: string, @Body() task: Task): Promise<Task> {
     return this.taskService.update(id, task);
   }
 
   //deletar user
-  @IsPublic()
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    this.taskService.delete(id);
+    return this.taskService.delete(id);
   }
 }
