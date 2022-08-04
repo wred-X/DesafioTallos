@@ -22,7 +22,7 @@
 <script>
 import { required } from '@vuelidate/validators'
 import Logo from '../Logo.vue';
-import {useStore} from "vuex";
+import Swal from 'sweetalert2';
 import axios from "axios";
 import { io } from 'socket.io-client'
 
@@ -48,19 +48,6 @@ export default {
        password: {required},
     }
   },
-  // mounted(){
-  //   if (localStorage.logged) {
-  //     this.logged = JSON.parse(localStorage.logged)
-  //   }
-  // },
-  // watch: {
-  //   logged: {
-  //     handler(userLogged) {
-  //       localStorage.logged = JSON.stringify(userLogged);
-  //     },
-  //     deep: true
-  //   },
-  // },
   methods: {
     handleSubmitForm() {
        this.isSubmitted = true;
@@ -85,6 +72,13 @@ export default {
            }).catch(() => {});;
            }
          } catch (error) {
+            Swal.fire({
+              title:'Ops!',
+              text:'Email ou senha estão incorretos!',
+              icon:'warning',
+              confirmButtonColor: '#00ff7f',
+              confirmButtonText: 'Entendido!'      
+            })
             return console.log(error)
          }
        }

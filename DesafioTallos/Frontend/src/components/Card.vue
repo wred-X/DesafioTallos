@@ -1,5 +1,13 @@
 <template >
-    <div @submit.prevent v-for="funcionario in users" :key="funcionario._id" class="card">
+<div style="display: flex;
+    align-items: center;
+    flex-direction: column;">
+    <div class="search-wrapper">
+      <input type="text" v-model="search" placeholder="Procurar por nome.."/>
+      <label style="margin-left: 3vh;">Resultado de pesquisa:</label>
+    </div>
+    <div class="wrapper">
+    <div @submit.prevent v-for="funcionario in filteredList" :key="funcionario._id" class="card">
     <img src="/img/avatar.png" alt="Person" class="card__image">
     <p class="card__name">{{funcionario.name}}</p>
     <div class="grid-container">
@@ -16,7 +24,9 @@
     <button class="btn draw-border" @click="submitViewUser(funcionario._id)" >Informações</button>
     <button v-show="this.owner===true" @click="submitEditUser(funcionario._id)"  class="btn draw-border">Alterações</button>
   </div>
-
+  </div>
+  </div>
+  <div v-if="this.users.lenght === 0">testeeeeeee</div>
 </template>
 <script>
 import { RouterLink } from 'vue-router'
@@ -31,6 +41,7 @@ export default {
     return { 
       users:[],
       owner: null,
+      search: ''
     }
   },
    mounted() {
@@ -77,11 +88,50 @@ export default {
              return console.log(error)
           }
      }
-   }
+   },
+   computed: {
+      filteredList() {
+        return this.users.filter(user => {
+        return user.name.toLowerCase().includes(this.search.toLowerCase())
+        })
+      }   
+    }
 }
 </script>
 
 <style scoped>
+.search-wrapper {
+  position: initial;
+}
+.label {
+    position: absolute;
+    font-size: 12px;
+    color: rgba(0,0,0,.50);
+    top: 8px;
+    left: 12px;
+    z-index: -1;
+    transition: .15s all ease-in-out;
+}
+.input {
+    padding: 4px 12px;
+    color: rgba(0,0,0,.70);
+    border: 1px solid rgba(0,0,0,.12);
+    transition: .15s all ease-in-out;
+    background: white;
+}
+.wrapper {
+    flex-wrap: wrap;
+    padding-top: 12px;
+    padding-bottom: 18px;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 300px 300px 300px;
+    grid-gap: 50px;
+    justify-content: center;
+    background-color: #f5f5f5;
+    font-family: 'Baloo Paaji 2', cursive;
+    padding-bottom: 50px;
+  }
 .card {
   background-color: #222831;
   padding-bottom: 18px;

@@ -113,11 +113,7 @@ export default {
 }
 .workers {
   display: grid;
-  grid-template-columns: 300px 300px 300px;
-  grid-gap: 50px;
   justify-content: center;
-  background-color: #f5f5f5;
-  font-family: 'Baloo Paaji 2', cursive;
   padding-bottom: 50px;
 }
 

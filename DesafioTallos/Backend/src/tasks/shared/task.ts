@@ -10,6 +10,7 @@ import {
 //import { IsSameEmail } from './validator.decorator';
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsSameEmail } from './validator.decorator';
 
 //parametros do user
 export class Task {

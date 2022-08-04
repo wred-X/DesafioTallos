@@ -1,20 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { Task } from 'src/tasks/shared/task';
-import { TaskService } from 'src/tasks/shared/task.service';
+import { Task } from '../../tasks/shared/task';
+import { TaskService } from '../../tasks/shared/task.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UnauthorizedError } from '../errors/unauthorized.error';
 import { UserPayload } from '../models/UserPayload';
 import { UserToken } from '../models/UserToken';
 import { ConfigService } from '@nestjs/config';
-import { Socket, Server } from 'socket.io';
-import {
-  WebSocketGateway,
-  SubscribeMessage,
-  MessageBody,
-  WebSocketServer,
-  ConnectedSocket,
-} from '@nestjs/websockets';
+import { Server } from 'socket.io';
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 //import { MessagesService } from '../../messages/messages.service';
 @WebSocketGateway({
   cors: {

@@ -8,19 +8,11 @@ import {
   UseInterceptors,
   SerializeOptions,
 } from '@nestjs/common';
-import {
-  WebSocketGateway,
-  SubscribeMessage,
-  MessageBody,
-  WebSocketServer,
-  ConnectedSocket,
-} from '@nestjs/websockets';
 import { AuthService } from './shared/auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthRequest } from './models/AuthRequest';
-import { AuthGateway } from './auth.gateway';
 import { IsPublic } from './decorators/is-public-decorator';
-import { InterceptorForClassSerializer } from 'src/tasks/shared/interceptor';
+import { InterceptorForClassSerializer } from '../tasks/shared/interceptor';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
@@ -30,16 +22,13 @@ import { ApiTags } from '@nestjs/swagger';
 })
 @UseInterceptors(InterceptorForClassSerializer)
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly authGateway: AuthGateway
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @IsPublic()
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Request() req: AuthRequest) {
-    return this.authService.login(req.user);
+    return await this.authService.login(req.user);
   }
 }

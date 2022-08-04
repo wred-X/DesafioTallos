@@ -42,7 +42,7 @@ export class MessagesGateway {
   @SubscribeMessage('newUsers')
   async getUser(): Promise<Task[]> {
     const newUser = await this.messagesService.getUser();
-    this.server.emit('task', newUser);
+    await this.server.emit('task', newUser);
     return newUser;
   }
 

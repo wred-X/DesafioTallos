@@ -3,7 +3,6 @@ import { Task } from './task';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { response } from 'express';
 
 //injeção das tarefas de Service
 @Injectable()
@@ -12,12 +11,12 @@ export class TaskService {
 
   //pegar todos os users
   async getAll() {
-    return await this.taskModel.find().exec();
+    return await this.taskModel.find();
   }
 
   //pegar login/user especifico
   async getById(id: string) {
-    return await this.taskModel.findById(id).exec();
+    return await this.taskModel.findById(id);
   }
 
   async findByEmail(email: string): Promise<Task> {

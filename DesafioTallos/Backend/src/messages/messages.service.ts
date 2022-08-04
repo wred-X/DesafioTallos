@@ -26,14 +26,6 @@ export class MessagesService {
     return this.clientToUser[clientId];
   }
 
-  logs(createLogDto: CreateLogDto) {
-    const log = {
-      _id: createLogDto._id,
-    };
-    this.log.push(log);
-    return log;
-  }
-
   getClientName(clientId: string) {
     return this.clientToUser[clientId];
   }
