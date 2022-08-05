@@ -20,9 +20,11 @@ export const store = createStore({
   mutations: {
     AUTH_SUCCESS(state, payload) {
       state.status = payload;
-      state.user = JSON.parse(localStorage.getItem('user'));
       state.token = localStorage.getItem('token');
       state.idUser = localStorage.getItem('idUser');
+    },
+    USER_SET(state){
+      state.user = JSON.parse(localStorage.getItem('user'));
     },
     AUTH_ERROR(state, payload) {
       state.status = payload;
@@ -52,16 +54,22 @@ export const store = createStore({
           'Authorization'
         ] = `Bearer ${data.access_token}`;
         localStorage.setItem('token', data.access_token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('idUser', data.user._id)
         context.commit('AUTH_SUCCESS', status);
       } catch (err) {
         axios.defaults.headers.common['Authorization'] = null;
         context.commit('AUTH_ERROR', err);
         localStorage.removeItem('token');
+        localStorage.removeItem('idUser');
+        localStorage.removeItem('user');
         resolve();
       }
       //console.log(payload, 'actions');
+    },
+    USER_SET(context, payload){
+      const data = payload;
+      localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('idUser', data.id)
+      context.commit('USER_SET');
     },
     joinSet(context, payload) {
       context.commit('SOCKET_JOIN', payload);
@@ -83,6 +91,7 @@ export const store = createStore({
         context.commit('AUTH_LOGOUT');
         localStorage.removeItem('token');
         localStorage.removeItem('idUser');
+        localStorage.removeItem('user');
         delete axios.defaults.headers.common['Authorization'];
         resolve();
       });

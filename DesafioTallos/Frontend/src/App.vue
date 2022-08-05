@@ -28,7 +28,7 @@ axios.interceptors.response.use(undefined, err => {
   </div>
 </template>
 
-<style >
+<style>
 * {
   margin: 0;
   padding: 0;

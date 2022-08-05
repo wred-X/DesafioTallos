@@ -22,7 +22,7 @@ export default {
   components: {
     Picture,
     Logo
-},
+  },
   data() {
     return { 
       image: "/Frontend/../img/login.png",
@@ -32,19 +32,19 @@ export default {
       }
     }
   },
-   mounted() {
-     this.getById(this.$store.state.user._id);
-   },
-   methods: {
-     async getById(id){
-       const response = await axios.get(`http://localhost:3000/tasks/${id}`)
-       if(response.status == 200){
-         this.profile = response.data
-       }else{
+  mounted() {
+    this.getById(this.$store.state.user.id);
+  },
+  methods: {
+    async getById(id){
+      const response = await axios.get(`http://localhost:3000/tasks/${id}`)
+      if(response.status == 200){
+        return this.profile = response.data
+      }else{
          console.log(error)
-       }
-     },
-   }
+      }
+    }
+  }
 }
 </script>
 

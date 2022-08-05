@@ -37,7 +37,7 @@ export default {
   data() {
     return { 
       profile: {},
-      user_info: this.$store.state.user._id,
+      user_info: this.$store.state.user.id,
       owner: true,
     }
   },
