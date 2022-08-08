@@ -24,7 +24,7 @@ axios.interceptors.response.use(undefined, err => {
     <div v-if="this.$store.state.status !== '' && this.$store.state.date === ''" class="container-master">
       <RouterView />
     </div>
-    <div v-else class="container-master">
+    <div v-if="this.$store.state.status !== '' && this.$store.state.date !== ''" class="container-master">
       <Header />
       <RouterView />
     </div>
