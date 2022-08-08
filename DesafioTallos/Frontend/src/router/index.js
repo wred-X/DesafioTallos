@@ -28,7 +28,18 @@ const ifAuthenticated = (to, from, next) => {
 };
 
 const ifOwner = (to, from, next) => {
+  console.log(store.getters.isOwner)
   if (store.getters.isOwner) {
+    next();
+    return;
+  } else {
+    next('/');
+  }
+};
+
+const ifRegister = (to, from, next) => {
+  console.log(store.getters.isRegister)
+  if (store.getters.isRegister !== true) {
     next();
     return;
   } else {
@@ -79,7 +90,7 @@ const router = createRouter({
       path: '/picture',
       name: 'myPicture',
       component: MyPicture,
-      beforeEnter: ifAuthenticated,
+      beforeEnter: ifAuthenticated && ifRegister,
     },
     {
       path: '/welcome',

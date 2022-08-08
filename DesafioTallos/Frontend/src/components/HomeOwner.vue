@@ -62,7 +62,7 @@ export default {
         }, 3000)
       } 
       else {
-        console.log('primeiro login')
+        return;
       }
     })
   },

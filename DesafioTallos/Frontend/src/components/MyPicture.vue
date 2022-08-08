@@ -91,16 +91,12 @@ export default {
   methods: {
     async showAlert() {
       const response = await axios.get('http://localhost:3000/tasks/me')
-        console.log(response, 'current user')
-          console.log(response.status)
       if(response.status == 200){
           this.$store.dispatch('USER_SET', response.data)
           socket.emit('userLog', {name: response.data.name, _id: response.data.id},
             () => {
               this.$store.dispatch('joinSet', true)
             });
-          console.log(response.data)
-          console.log(this.$store.state.user)
       }else{
         console.log(error)
       }
@@ -185,6 +181,7 @@ export default {
     },
 
     confirmPhoto() {
+      const date = new Date().toLocaleTimeString();
       this.$router.push({
         name: 'home',
       }).catch(() => {});
@@ -194,6 +191,8 @@ export default {
         icon:'success',
         confirmButtonColor: '#00ff7f'      
       })
+      this.$store.dispatch('DATE_SET', date)
+      this.stopCameraStream()
     },
     
     downloadImage() {
@@ -216,7 +215,7 @@ body {
 }
 
 .web-camera-container {
-  height: 91vh;
+  height: 100vh;
   padding: 2rem;
   display: flex;
   flex-direction: column;

@@ -56,12 +56,11 @@ export default {
          try {
           //  await TaskService.createNewUser(this.user)
           const response = await axios.post('http://localhost:3000/login', this.user)
-          console.log(response.data.access_token,'token')
           const token = localStorage.getItem('token');
           if (token !== response.data.access_token ){
             await this.$store.dispatch('AUTH_SET', response)
             this.$router.push({
-              name: 'welcome',
+              name: 'myPicture',
             }).catch(() => {});;
            } else {
             this.$router.push({
