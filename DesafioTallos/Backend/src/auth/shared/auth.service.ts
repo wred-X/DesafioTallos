@@ -31,13 +31,15 @@ export class AuthService {
       sub: task._id,
       email: task.email,
       name: task.name,
+      age: task.age,
+      description: task.description,
+      owner: task.owner,
     };
     this.server.emit('user-login', payload.sub, () => {
-      console.log('logou');
+      return;
     });
     return {
       access_token: this.jwtService.sign(payload),
-      user: task,
     };
   }
 

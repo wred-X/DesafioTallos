@@ -45,7 +45,7 @@ export class TasksController {
   //teste current user
   @Get('me')
   getMe(@CurrentUser() task: Task) {
-    return task;
+    return this.taskService.getMe(task);
   }
 
   //rota get, retornando user por id

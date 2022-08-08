@@ -19,6 +19,10 @@ export class TaskService {
     return await this.taskModel.findById(id);
   }
 
+  async getMe(task: Task) {
+    return task;
+  }
+
   async findByEmail(email: string): Promise<Task> {
     const usuarioEncontrado = this.taskModel.findOne({ email });
     return usuarioEncontrado;

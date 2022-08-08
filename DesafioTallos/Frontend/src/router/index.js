@@ -6,6 +6,8 @@ import Register from '../components/form/Register.vue';
 import Edit from '../components/form/Edit.vue';
 import MyProfile from '../components/MyProfile.vue';
 import Chat from '../socketChat/Chat.vue';
+import MyPicture from '../components/MyPicture.vue';
+import Welcome from '../components/Welcome.vue';
 import { store } from '../store';
 
 const ifNotAuthenticated = (to, from, next) => {
@@ -26,7 +28,18 @@ const ifAuthenticated = (to, from, next) => {
 };
 
 const ifOwner = (to, from, next) => {
+  console.log(store.getters.isOwner)
   if (store.getters.isOwner) {
+    next();
+    return;
+  } else {
+    next('/');
+  }
+};
+
+const ifRegister = (to, from, next) => {
+  console.log(store.getters.isRegister)
+  if (store.getters.isRegister !== true) {
     next();
     return;
   } else {
@@ -71,6 +84,18 @@ const router = createRouter({
       path: '/perfil',
       name: 'perfil',
       component: () => import('../views/AboutView.vue'),
+      beforeEnter: ifAuthenticated,
+    },
+    {
+      path: '/picture',
+      name: 'myPicture',
+      component: MyPicture,
+      beforeEnter: ifAuthenticated && ifRegister,
+    },
+    {
+      path: '/welcome',
+      name: 'welcome',
+      component: Welcome,
       beforeEnter: ifAuthenticated,
     },
     {

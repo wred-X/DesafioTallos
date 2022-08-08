@@ -7,15 +7,6 @@ import { UnauthorizedError } from '../errors/unauthorized.error';
 const newLog = {
   access_token:
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MmJkZGYxZmYzY2UwODZhNzIxNjdlY2EiLCJlbWFpbCI6InRlc3RlQGdtYWlsLmNvbSIsIm5hbWUiOiJOZXltYXIgSnIuIiwiaWF0IjoxNjU5NTQ2MTY3LCJleHAiOjE2NjIxMzgxNjd9.m_VTm2n5F-qhY_SbekV8sXWlHLwjCLU2G9MEQ6vA7iU',
-  user: {
-    _id: '62bddf1ff3ce086a72167eca',
-    email: 'testeJest@gmail.com',
-    name: 'Neymar Jr.',
-    age: 33,
-    description: 'Caixa',
-    owner: false,
-    __v: 0,
-  },
 };
 
 const userByToken = {

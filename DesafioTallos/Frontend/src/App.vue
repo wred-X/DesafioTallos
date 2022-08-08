@@ -21,6 +21,9 @@ axios.interceptors.response.use(undefined, err => {
     <div v-if="this.$store.state.status === ''" class="container-master">
       <RouterView />
     </div>
+    <div v-if="this.$store.state.status !== '' && this.$store.state.date === ''" class="container-master">
+      <RouterView />
+    </div>
     <div v-else class="container-master">
       <Header />
       <RouterView />
@@ -28,7 +31,7 @@ axios.interceptors.response.use(undefined, err => {
   </div>
 </template>
 
-<style >
+<style>
 * {
   margin: 0;
   padding: 0;

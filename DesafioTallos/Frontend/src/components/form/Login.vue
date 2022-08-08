@@ -55,23 +55,19 @@ export default {
     async submitLogin(){
          try {
           //  await TaskService.createNewUser(this.user)
-           const response = await axios.post('http://localhost:3000/login', this.user)
-           const token = localStorage.getItem('token');
-           if (token !== response.data.access_token ){
-           await this.$store.dispatch('AUTH_SET', response)
-           socket.emit('userLog', {name: response.data.user.name, _id: response.data.user._id},
-           () => {
-            this.$store.dispatch('joinSet', true)
-           });
-           this.$router.push({
-             name: 'home',
-           }).catch(() => {});;
+          const response = await axios.post('http://localhost:3000/login', this.user)
+          const token = localStorage.getItem('token');
+          if (token !== response.data.access_token ){
+            await this.$store.dispatch('AUTH_SET', response)
+            this.$router.push({
+              name: 'myPicture',
+            }).catch(() => {});;
            } else {
             this.$router.push({
              name: 'login',
            }).catch(() => {});;
            }
-         } catch (error) {
+        } catch (error) {
             Swal.fire({
               title:'Ops!',
               text:'Email ou senha estão incorretos!',
@@ -80,8 +76,8 @@ export default {
               confirmButtonText: 'Entendido!'      
             })
             return console.log(error)
-         }
-       }
+        }
+    },
   }
 }
 </script>

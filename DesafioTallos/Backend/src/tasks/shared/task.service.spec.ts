@@ -60,6 +60,7 @@ describe('TaskService', () => {
   const mockTask = {
     getAll: jest.fn().mockResolvedValue(task),
     getById: jest.fn().mockResolvedValue(task[0]),
+    getMe: jest.fn().mockResolvedValue(task[0]),
     create: jest.fn().mockResolvedValue(newTask),
     update: jest.fn().mockResolvedValue(updatedTask),
     delete: jest.fn().mockResolvedValue(undefined),
@@ -244,6 +245,45 @@ describe('TaskService', () => {
 
       // Assert
       expect(taskService.delete('1')).rejects.toThrowError();
+    });
+  });
+
+  describe('getMe', () => {
+    it('Deve remover um usuario com sucesso', async () => {
+      const body: Task = {
+        email: 'testeJest@gmail.com',
+        password: 'Abc@12345',
+        name: 'Vina',
+        age: 20,
+        description: 'Gerente',
+        owner: true,
+        _id: '1',
+      };
+
+      // Act
+      const result = await taskService.getMe(body);
+
+      // Assert
+      expect(result).toEqual(task[0]);
+      expect(taskService.getMe).toHaveBeenCalledTimes(1);
+      //expect(typeof result).toEqual('object');
+    });
+
+    it('should throw an exception', async () => {
+      const body: Task = {
+        email: 'testeJest@gmail.com',
+        password: 'Abc@12345',
+        name: 'Vina',
+        age: 20,
+        description: 'Gerente',
+        owner: true,
+        _id: '1',
+      };
+      // Arrange
+      jest.spyOn(taskService, 'getMe').mockRejectedValueOnce(new Error());
+
+      // Assert
+      expect(taskService.getMe(body)).rejects.toThrowError();
     });
   });
 });

@@ -24,7 +24,7 @@
 </template>
 <script>
 import UserInfo from './form/UserInfo.vue'
-import Autocomplete from './Search.vue';
+import axios from "axios";
 import Card from './Card.vue'
 import Swal from 'sweetalert2';
 import { io } from 'socket.io-client'
@@ -47,37 +47,35 @@ export default {
   },
   mounted() {
     this.userIn();
-      socket.on('user-login', (response) => {
-        let sessionId = localStorage.getItem('idUser')
-        if ( String(sessionId) == String(response)){
-          setTimeout(() => {
-          Swal.fire({
-            title: 'Você já está logado!',
-            ext: 'Essa conta não permite acesso simultaneo',
-            icon: 'error',
-            confirmButtonColor: '#00ff7f',
-            confirmButtonText: 'Entendido!',
-          })
-          this.submitLogOut()
-          }, 3000)
-        }
-        else{
-            console.log('primeiro login')
-        }
+    socket.on('user-login', (response) => {
+      let sessionId = localStorage.getItem('idUser')
+      if ( String(sessionId) == String(response)){
+        setTimeout(() => {
+        Swal.fire({
+          title: 'Você logou em outro local!',
+          text: 'Essa conta não permite acesso simultaneo, por isso você está sendo desconectado!',
+          icon: 'error',
+          confirmButtonColor: '#00ff7f',
+          confirmButtonText: 'Entendido!',
         })
+        this.submitLogOut()
+        }, 3000)
+      } 
+      else {
+        return;
+      }
+    })
   },
   methods: {
-  
-     async userIn() {
-   
-       socket.on('userLog', (response) => {
-         this.userSocket = response.name;
-    
-         if (this.userSocket !== this.$store.state.user.name){
-           return this.launch_toast();
-         }
-       });
-     },
+    async userIn() {
+      socket.on('userLog', (response) => {
+        this.userSocket = response.name;
+      
+        if (this.userSocket !== this.$store.state.user.name){
+          return this.launch_toast();
+        }
+      });
+    },
     async submitLogOut () {
         await this.$store.dispatch('AUTH_LOGOUT')
         .then(() => {
@@ -115,6 +113,7 @@ export default {
   display: grid;
   justify-content: center;
   padding-bottom: 50px;
+  background-color: #f5f5f5
 }
 
 #toast {
