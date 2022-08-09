@@ -1,6 +1,8 @@
 <template>
   <div class="login">
-     <Logo/>
+    <div>
+      <Logo/>
+    </div>
     <form id="login-form" @submit.prevent="handleSubmitForm()">
       <div class="input-container">
           <label for="email">Email:</label>
@@ -88,13 +90,17 @@ export default {
     display: flex;
   }
   .container_logo{
-    width: 100%;
+    width: 150vh;
+    height: 100vh;
   }
   #login-form {
+   width: 50vh;
+   height: 100vh;
+   display:flex;
+   justify-content: center;
    align-items: center;
-   margin-top: 13%;
-   padding-right: 5%;
-   padding-left: 5%;
+   flex-direction: column;
+   padding-left: 7%;
   }
 
   .input-container {

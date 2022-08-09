@@ -72,7 +72,7 @@ export const store = createStore({
         let hr = Math.floor(diff / 3600);
         let min = Math.floor(diff / 60);
         let seg = diff - ((hr * 3600) + (min * 60));
-        console.log(`${hr} horas, ${min} minutos e ${seg} segundos trabalhados`);
+        alert(`${hr} horas, ${min} minutos e ${seg} segundos trabalhados`);
       }
       state.register = false;   
     }

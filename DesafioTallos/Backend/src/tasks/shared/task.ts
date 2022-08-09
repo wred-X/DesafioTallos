@@ -19,7 +19,7 @@ export class Task {
   _id: string;
 
   @ApiProperty({
-    description: 'email de usuario',
+    description: 'Email de usuario',
     example: 'email@gmail.com',
   })
   @Expose({ name: 'email' })
@@ -30,6 +30,7 @@ export class Task {
   email: string;
 
   @ApiProperty({
+    description: 'Senha de usuario',
     example: 'Abc@123',
   })
   @Expose({
@@ -47,6 +48,7 @@ export class Task {
 
   @ApiProperty({
     example: '24',
+    description: 'Idade de usuario',
   })
   @Expose({ name: 'age' })
   // @IsInt({
@@ -59,6 +61,7 @@ export class Task {
 
   @ApiProperty({
     example: 'Wesley Romão',
+    description: 'Nome de usuario',
   })
   @Expose({ name: 'name' })
   @IsNotEmpty({
@@ -68,6 +71,7 @@ export class Task {
 
   @ApiProperty({
     example: 'Gerente',
+    description: 'Função de usuario',
   })
   @Expose({ name: 'work' })
   @IsNotEmpty({
@@ -75,7 +79,10 @@ export class Task {
   })
   description: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: 'True',
+    description: 'Permissão admin/comum de usuario',
+  })
   @Expose({ name: 'permission' })
   owner: boolean;
 
