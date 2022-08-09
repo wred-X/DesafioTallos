@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return { 
-      image: "/Frontend/../img/login.png",
+      image: "/Frontend/../img/login2.png",
       profile: {
         name: null,
         age: null,
@@ -52,7 +52,7 @@ export default {
 .container{
   justify-content: space-between;
   display: flex;
-  background-color: #a134f6;
+  background-color: #c968c9;
 }
 .img{
     align-self: flex-end;

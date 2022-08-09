@@ -86,7 +86,7 @@ export default {
 
 <style scoped>
   .login {
-    background-color: #a134f6;
+    background-color: #c968c9;
     display: flex;
   }
   .container_logo{
@@ -154,7 +154,7 @@ export default {
 
   .submit-btn {
     background-color: #222;
-    color:#fc03b1;
+    color:#ffbdd6;
     font-weight: bold;
     border: 2px solid #222;
     padding: 10px;
@@ -166,6 +166,6 @@ export default {
 
   .submit-btn:hover {
     background-color: transparent;
-    color: #fc03b1;
+    color: #ffbdd6;
   }
 </style>

@@ -154,13 +154,13 @@ export default {
   border-radius: 50%;
   border: 5px solid #272133;
   margin-top: 20px;
-  box-shadow: 0 10px 50px #fc03b1;
+  box-shadow: 0 10px 50px #ffbdd6;
 }
 
 
 .draw-border {
-  box-shadow: inset 0 0 0 4px #a134f6;
-  color: #a134f6;
+  box-shadow: inset 0 0 0 4px #c968c9;
+  color: #c968c9;
   -webkit-transition: color 0.25s 0.0833333333s;
   transition: color 0.25s 0.0833333333s;
   position: relative;

@@ -9,7 +9,7 @@ export default {
   name: 'Logo',
   data() {
     return { 
-      logo: "/img/login.png",
+      logo: "/img/login2.png",
       
     }
   }

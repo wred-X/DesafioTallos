@@ -21,7 +21,7 @@ export default {
   height: 100px;
   width: 100px;
   border-radius: 50%;
-  border: 3px solid #fc03b1;
+  border: 3px solid #ffbdd6;
   margin-top: 20px;
 }
 </style>

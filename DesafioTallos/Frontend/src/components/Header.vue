@@ -47,7 +47,7 @@ import { RouterLink } from 'vue-router'
         <RouterLink style="align-self: center; font-size: 18px; font-weight: bold;" to="/registro">Registro</RouterLink>
         </ul>
         <div class="logout">
-        <button @click="submitLogOut" style="width: 50px; align-self: center; font-size: 18px; font-weight: bold; margin-left: 13px; color: #eb196e; background-color: #f5f5f5; border-color: #a134f6;">Sair</button>
+        <button @click="submitLogOut" style="width: 50px; align-self: center; font-size: 18px; font-weight: bold; margin-left: 13px; color: #eb196e; background-color: #f5f5f5; border-color: #c968c9;">Sair</button>
         </div>
       </ul>
     </nav>
@@ -117,7 +117,7 @@ nav a:first-of-type {
 }
 
 .navbar-bright {
-	background-color:#fc03b1;
+	background-color:#ffbdd6;
   margin: 0%;
   color:#fff;
 }
@@ -127,14 +127,14 @@ nav a:first-of-type {
 }
 
 .navbar-bright li > a:hover {
-    background-color:#fc03b1;;
+    background-color:#ffbdd6;;
 }
 
 li {
-    border-bottom:1px solid #a134f6;
+    border-bottom:1px solid #c968c9;
 }  
 
 #sidebar li.active {
-  	border-right:5px solid #a134f6;
+  	border-right:5px solid #c968c9;
 }
 </style>
